@@ -1,0 +1,160 @@
+/* Theme the Flatpickr calendar popover to match the Dreams Core design system (light + dark). */
+
+.flatpickr-calendar {
+  background: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-lg);
+  border-radius: 12px;
+  overflow: visible;
+  font-family: var(--font-sans);
+}
+.flatpickr-innerContainer,
+.flatpickr-rContainer,
+.flatpickr-days,
+.dayContainer { overflow: visible; }
+.flatpickr-calendar.arrowTop:before,
+.flatpickr-calendar.arrowTop:after { border-bottom-color: var(--surface-raised); }
+.flatpickr-calendar.arrowBottom:before,
+.flatpickr-calendar.arrowBottom:after { border-top-color: var(--surface-raised); }
+
+.flatpickr-months { padding: 14px 14px 6px; align-items: center; flex-wrap: nowrap; }
+.flatpickr-month { overflow: hidden; min-height: 34px; }
+.flatpickr-current-month {
+  color: var(--text-primary);
+  font-weight: 700;
+  font-family: var(--font-display);
+  padding: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month input.cur-year {
+  color: var(--text-primary);
+  background: transparent;
+  font-weight: 700;
+}
+.flatpickr-current-month .flatpickr-monthDropdown-months:hover { background: var(--surface-sunken); border-radius: 6px; }
+.flatpickr-months .flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month {
+  color: var(--text-tertiary); fill: var(--text-tertiary);
+  border-radius: 999px; width: 26px; height: 26px;
+  display: grid; place-items: center; top: 4px;
+  transition: background-color .15s ease, color .15s ease;
+}
+.flatpickr-months .flatpickr-prev-month.flatpickr-prev-month { left: 4px; }
+.flatpickr-months .flatpickr-next-month.flatpickr-next-month { right: 4px; }
+.flatpickr-months .flatpickr-prev-month:hover,
+.flatpickr-months .flatpickr-next-month:hover {
+  color: var(--color-primary-600); fill: var(--color-primary-600);
+  background: var(--surface-sunken);
+}
+.flatpickr-months .flatpickr-prev-month svg,
+.flatpickr-months .flatpickr-next-month svg { fill: inherit; width: 12px; height: 12px; }
+
+.flatpickr-weekdays { background: transparent; margin-top: 4px; }
+span.flatpickr-weekday { color: var(--text-tertiary); font-weight: 700; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+.flatpickr-days { padding: 2px 10px 10px; }
+
+.flatpickr-day {
+  color: var(--text-primary);
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 500;
+  transition: background-color .12s ease, color .12s ease, box-shadow .12s ease;
+}
+.flatpickr-day.today {
+  border-color: transparent;
+  font-weight: 700;
+  box-shadow: inset 0 0 0 1.5px var(--color-info-400);
+}
+.flatpickr-day.today:hover { box-shadow: none; }
+.flatpickr-day:hover { background: var(--surface-sunken); border-color: var(--surface-sunken); }
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.flatpickr-disabled:hover,
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay,
+.flatpickr-day.notAllowed,
+.flatpickr-day.notAllowed.prevMonthDay,
+.flatpickr-day.notAllowed.nextMonthDay { color: var(--text-tertiary); opacity: 0.4; }
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected.inRange,
+.flatpickr-day.startRange.inRange,
+.flatpickr-day.endRange.inRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.startRange:focus,
+.flatpickr-day.endRange:focus,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover {
+  background: var(--color-info-600);
+  border-color: var(--color-info-600);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 1px 2px color-mix(in oklab, var(--color-info-600) 45%, transparent);
+}
+.flatpickr-day.startRange { border-start-end-radius: 0; border-end-end-radius: 0; }
+.flatpickr-day.endRange { border-start-start-radius: 0; border-end-start-radius: 0; }
+.flatpickr-day.startRange.endRange { border-radius: 8px; }
+.flatpickr-day.inRange {
+  background: var(--color-info-100);
+  border-color: var(--color-info-100);
+  box-shadow: -5px 0 0 var(--color-info-100), 5px 0 0 var(--color-info-100);
+  color: var(--color-info-800);
+  border-radius: 0;
+}
+[data-theme="dark"] .flatpickr-day.inRange {
+  background: color-mix(in oklab, var(--color-info-500) 20%, transparent);
+  border-color: color-mix(in oklab, var(--color-info-500) 20%, transparent);
+  box-shadow: -5px 0 0 color-mix(in oklab, var(--color-info-500) 20%, transparent), 5px 0 0 color-mix(in oklab, var(--color-info-500) 20%, transparent);
+  color: var(--color-info-200);
+}
+
+/* Divider between the two visible months */
+.flatpickr-calendar.multiMonth .flatpickr-days { border-inline-start: 1px solid var(--border-subtle); }
+.flatpickr-calendar.multiMonth .flatpickr-month + .flatpickr-month .flatpickr-current-month { padding-inline-start: 10px; }
+
+.flatpickr-time input,
+.flatpickr-time .flatpickr-am-pm { color: var(--text-primary); }
+.flatpickr-time input:hover,
+.flatpickr-time .flatpickr-am-pm:hover { background: var(--surface-sunken); }
+
+/* Presets rail (custom, appended by date-range-picker.js) */
+.drp-presets {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 10px;
+  background: var(--surface-sunken);
+  min-width: 140px;
+}
+.drp-presets button {
+  position: relative;
+  text-align: start;
+  padding: 7px 10px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: transparent;
+  transition: background-color .12s ease, color .12s ease;
+}
+.drp-presets button:hover { background: var(--surface-raised); color: var(--text-primary); }
+.drp-presets button.is-active {
+  background: var(--surface-raised);
+  color: var(--color-info-700);
+  font-weight: 700;
+  box-shadow: var(--shadow-sm), inset 2px 0 0 var(--color-info-500);
+}
+[data-theme="dark"] .drp-presets button.is-active { color: var(--color-info-300); }
+.flatpickr-calendar.drp-with-presets { display: flex; flex-direction: row; width: auto !important; }
+.flatpickr-calendar.drp-with-presets .flatpickr-innerContainer { border: none; flex-shrink: 0; }
+.flatpickr-calendar.drp-with-presets .flatpickr-months,
+.flatpickr-calendar.drp-with-presets .flatpickr-rContainer,
+.flatpickr-calendar.drp-with-presets .flatpickr-days,
+.flatpickr-calendar.drp-with-presets .dayContainer { flex-shrink: 0; }
+.drp-presets { flex-shrink: 0; }

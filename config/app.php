@@ -13,7 +13,33 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Laboratory Information Management Software'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Short Name
+    |--------------------------------------------------------------------------
+    |
+    | This value is the short name of your application, which will be used
+    | in places where the full application name is too long to fit or when
+    | a more concise identifier is preferred.
+    |
+    */
+
+    'short_name' => env('APP_SHORT_NAME', 'LIMS'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Title
+    |--------------------------------------------------------------------------
+    |
+    | This value is the title of your application, which will be used for
+    | page titles in the browser and other UI elements where a shorter
+    | title string is preferred over the full application name.
+    |
+    */
+
+    'title' => env('APP_TITLE', 'LIMS'),
 
     /*
     |--------------------------------------------------------------------------
