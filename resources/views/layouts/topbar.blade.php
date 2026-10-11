@@ -189,39 +189,8 @@
                 </div>
             </div>
 
-            <!-- Theme switcher (always visible, incl. mobile) -->
-            <div class="hs-dropdown [--placement:bottom-end] [--auto-close:inside] relative">
-                <button type="button" class="hs-dropdown-toggle grid place-items-center size-7 rounded-full transition-transform hover:scale-105 bg-[color-mix(in_oklab,var(--color-warning-500)_16%,transparent)] text-[var(--color-warning-600)]" aria-haspopup="menu" aria-expanded="false" aria-label="Theme">
-                    <i class="icon-sun-medium text-[13.5px]" id="themeIcon"></i>
-                </button>
-                <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 opacity-0 hidden transition-[opacity,margin] duration mt-2 w-44 surface-card p-1.5 z-50" role="menu" aria-orientation="vertical">
-                    <button type="button" data-theme-set="light" class="theme-option w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium hover:bg-[var(--surface-sunken)]"><i class="icon-sun-medium text-[15px]"></i>Light<i class="icon-check text-[12px] ms-auto opacity-0"></i></button>
-                    <button type="button" data-theme-set="dark" class="theme-option w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium hover:bg-[var(--surface-sunken)]"><i class="icon-moon text-[15px]"></i>Dark<i class="icon-check text-[12px] ms-auto opacity-0"></i></button>
-                    <button type="button" data-theme-set="system" class="theme-option w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium hover:bg-[var(--surface-sunken)]"><i class="icon-monitor text-[15px]"></i>System<i class="icon-check text-[12px] ms-auto opacity-0"></i></button>
-                </div>
-            </div>
-
             <!-- Soft elevated toolbar: each icon in its own tinted chip -->
             <div class="hidden sm:flex items-center gap-1 h-10 px-1.5 rounded-full bg-[var(--surface-raised)] border border-[var(--border-subtle)] shadow-[var(--shadow-sm)]">
-
-                <!-- Language selector -->
-                <div class="hs-dropdown [--placement:bottom-end] relative">
-                    <button type="button" class="hs-dropdown-toggle grid place-items-center size-7 rounded-full transition-transform hover:scale-105 bg-[color-mix(in_oklab,var(--color-info-500)_14%,transparent)] text-[var(--color-info-600)]" aria-haspopup="menu" aria-expanded="false" aria-label="Language">
-                        <i class="icon-languages text-[13.5px]"></i>
-                    </button>
-                    <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 opacity-0 hidden transition-[opacity,margin] duration mt-2 w-44 surface-card p-1.5 z-50" role="menu" aria-orientation="vertical">
-                        <button type="button" data-lang-set="en" class="lang-option w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium hover:bg-[var(--surface-sunken)]"><span>🇺🇸</span>English<i class="icon-check text-[12px] ms-auto opacity-0"></i></button>
-                        <button type="button" data-lang-set="fr" class="lang-option w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium hover:bg-[var(--surface-sunken)]"><span>🇫🇷</span>Français<i class="icon-check text-[12px] ms-auto opacity-0"></i></button>
-                        <button type="button" data-lang-set="de" class="lang-option w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium hover:bg-[var(--surface-sunken)]"><span>🇩🇪</span>Deutsch<i class="icon-check text-[12px] ms-auto opacity-0"></i></button>
-                        <button type="button" data-lang-set="ar" class="lang-option w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium hover:bg-[var(--surface-sunken)]"><span>🇸🇦</span>العربية<i class="icon-check text-[12px] ms-auto opacity-0"></i></button>
-                    </div>
-                </div>
-
-                <!-- Fullscreen -->
-                <button type="button" class="grid place-items-center size-7 rounded-full transition-transform hover:scale-105 bg-[color-mix(in_oklab,var(--text-tertiary)_14%,transparent)] text-[var(--text-secondary)]" id="fullscreenBtn" aria-label="Toggle fullscreen">
-                    <i class="icon-maximize text-[13.5px]" id="fullscreenIcon"></i>
-                </button>
-
                 <!-- Messages (opens chat offcanvas) -->
                 <button type="button" class="relative grid place-items-center size-7 rounded-full transition-transform hover:scale-105 bg-[color-mix(in_oklab,var(--color-accent-500)_16%,transparent)] text-[var(--color-accent-600)]" id="messagesOffcanvasBtn" aria-haspopup="true" aria-expanded="false" aria-label="Messages">
                     <i class="icon-messages-square text-[13.5px]"></i>
@@ -382,7 +351,7 @@
 
 <!-- ================= CHAT OFFCANVAS ================= -->
 <div id="chatOffcanvasBackdrop" class="hidden fixed inset-0 z-[60] bg-[rgb(10_12_11_/_0.5)]"></div>
-<aside id="chatOffcanvas" class="fixed top-0 end-0 h-full w-full max-w-sm z-[61] flex flex-col bg-[var(--surface-raised)] [border-inline-start:1px_solid_var(--border-subtle)] shadow-[var(--shadow-xl)] translate-x-full transition-transform duration-250 ease-in-out" aria-label="Messages">
+<aside id="chatOffcanvas" class="fixed top-0 end-0 h-full w-full max-w-sm z-[61] flex flex-col bg-[var(--surface-raised)] [border-inline-start:1px_solid_var(--border-subtle)] shadow-[var(--shadow-xl)] transition-transform duration-250 ease-in-out" style="transform: translateX(100%)" aria-label="Messages">
 
     <!-- Conversation list view -->
     <div id="chatListView" class="flex flex-col h-full">

@@ -4,11 +4,8 @@
     <script>
         (function() {
             try {
-                const theme = localStorage.getItem('dreamscore-theme') || 'light';
-                const effective = theme === 'system'
-                    ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-                    : theme;
-                document.documentElement.setAttribute('data-theme', effective);
+                localStorage.removeItem('dreamscore-theme');
+                document.documentElement.setAttribute('data-theme', 'light');
             } catch (e) {}
         })();
     </script>
@@ -22,14 +19,14 @@
 </head>
 <body>
     <div class="app-shell">
-        @include('partials.sidebar')
+        @include('layouts.sidebar')
         <div class="app-main">
-            @include('partials.topbar')
-            @include('partials.breadcrumb', [
+            @include('layouts.topbar')
+            @include('layouts.breadcrumb', [
                 'breadcrumb' => \Illuminate\Support\Facades\View::getSection('breadcrumb', ''),
             ])
             @yield('content')
-            @include('partials.footer')
+            @include('layouts.footer')
         </div>
     </div>
     @include('components.modal-popup')

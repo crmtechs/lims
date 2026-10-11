@@ -124,410 +124,20 @@ document.addEventListener("click", function (e) {
 });
 
 // ---- theme.js ----
-// ---- theme.js --------------------------------------------------------------
 (function () {
-  const STORAGE_KEY = "dreamscore-theme";
-  const root = document.documentElement;
-  const media = window.matchMedia("(prefers-color-scheme: dark)");
-
-  function getStoredMode() {
-    return localStorage.getItem(STORAGE_KEY) || "light";
-  }
-
-  function effectiveTheme(mode) {
-    if (mode === "system") return media.matches ? "dark" : "light";
-    return mode;
-  }
-
-  function iconFor(mode) {
-    if (mode === "light") return "icon-sun-medium";
-    if (mode === "dark") return "icon-moon";
-    return "icon-monitor";
-  }
-
-  function applyTheme(mode) {
-    root.setAttribute("data-theme", effectiveTheme(mode));
-
-    const icon = document.getElementById("themeIcon");
-    if (icon) {
-      icon.className = icon.className.replace(/icon-\S+/, iconFor(mode));
-    }
-
-    document.querySelectorAll(".theme-option").forEach((btn) => {
-      const check = btn.querySelector(".icon-check");
-      if (!check) return;
-      check.classList.toggle("opacity-0", btn.dataset.themeSet !== mode);
-      check.classList.toggle("opacity-100", btn.dataset.themeSet === mode);
-    });
-  }
-
-  function labelFor(mode) {
-    if (mode === "light") return "Light mode activated";
-    if (mode === "dark") return "Dark mode activated";
-    return "Switched to system theme";
-  }
-
-  let toastTimer;
-  function showThemeToast(mode) {
-    let toast = document.getElementById("themeToast");
-    if (!toast) {
-      toast = document.createElement("div");
-      toast.id = "themeToast";
-      toast.className = "fixed bottom-6 start-1/2 z-[100] flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-[12.5px] font-semibold shadow-xl transition-all duration-300";
-      toast.style.background = "var(--surface-raised)";
-      toast.style.border = "1px solid var(--border-default)";
-      toast.style.color = "var(--text-primary)";
-      toast.style.transform = "translate(-50%, 12px)";
-      toast.style.opacity = "0";
-      document.body.appendChild(toast);
-    }
-
-    toast.innerHTML = `<i class="${iconFor(mode)} text-[15px]" style="color: var(--color-primary-600);"></i>${labelFor(mode)}`;
-
-    window.clearTimeout(toastTimer);
-    requestAnimationFrame(() => {
-      toast.style.transform = "translate(-50%, 0)";
-      toast.style.opacity = "1";
-    });
-    toastTimer = window.setTimeout(() => {
-      toast.style.transform = "translate(-50%, 12px)";
-      toast.style.opacity = "0";
-    }, 2200);
-  }
-
-  function setMode(mode) {
-    localStorage.setItem(STORAGE_KEY, mode);
-    applyTheme(mode);
-    showThemeToast(mode);
-  }
-
-  applyTheme(getStoredMode());
-
-  media.addEventListener("change", () => {
-    if (getStoredMode() === "system") applyTheme("system");
-  });
-
-  document.addEventListener("click", (e) => {
-    const trigger = e.target.closest("[data-theme-set]");
-    if (!trigger) return;
-    setMode(trigger.dataset.themeSet);
-  });
+  try {
+    localStorage.removeItem("dreamscore-theme");
+  } catch (e) {}
+  document.documentElement.setAttribute("data-theme", "light");
 })();
 
 
 // ---- lang.js ----
-// ---- lang.js (sidebar-only translation) -------------------------------------
 (function () {
-  const STORAGE_KEY = "dreamscore-lang";
-
-  // Only sidebar text is translated. Any key without an entry for the
-  // active language simply falls back to the original English text.
-  const DICT = {
-    fr: {
-      "Favorites": "Favoris", "Dashboard": "Tableau de bord", "All Patients": "Tous les patients",
-      "View 4 more": "Voir 4 de plus", "Upgrade plan": "Améliorer l'offre", "Storage": "Stockage",
-      "Main": "Principal", "Dashboards": "Tableaux de bord", "Ecommerce": "E-commerce",
-      "AI Analytics": "Analyse IA", "Business Intelligence": "Business Intelligence",
-      "Sales Analytics": "Analyse des ventes", "Project Management": "Gestion de projet",
-      "Finance": "Finance", "Accounting": "Comptabilité", "Banking": "Banque",
-      "Crypto Analytics": "Analyse crypto", "Logistics": "Logistique",
-      "Hospital Management": "Gestion hospitalière", "School Management": "Gestion scolaire",
-      "LMS Analytics": "Analyse LMS", "Hotel Management": "Gestion hôtelière",
-      "Restaurant POS": "Caisse restaurant", "Food Delivery": "Livraison de repas",
-      "Travel & Booking": "Voyage & Réservation", "SEO Analytics": "Analyse SEO",
-      "CRM": "GRC", "HRM": "GRH", "Applications": "Applications", "Chat": "Discussion",
-      "AI Chat": "Chat IA", "Calls": "Appels", "Voice Call": "Appel vocal", "Video Call": "Appel vidéo",
-      "Calendar": "Calendrier", "Email": "E-mail", "File Manager": "Gestionnaire de fichiers",
-      "Kanban": "Kanban", "Notes": "Notes", "To Do": "À faire",
-      "Workflow & Approvals": "Flux & Approbations", "Storefront": "Vitrine",
-      "Products": "Produits", "Orders": "Commandes", "Categories": "Catégories",
-      "Reviews": "Avis", "BI Overview": "Aperçu BI", "Data Sources": "Sources de données",
-      "KPI Builder": "Créateur de KPI", "Insights": "Aperçus", "Leads": "Prospects",
-      "Deals": "Affaires", "Quotations": "Devis", "Pipeline": "Pipeline",
-      "Inventory": "Inventaire", "Stock Transfer": "Transfert de stock",
-      "Purchase Orders": "Bons de commande", "Suppliers": "Fournisseurs",
-      "Shipments": "Expéditions", "Customer Segments": "Segments clients",
-      "Companies": "Entreprises", "Activities": "Activités", "Calls & Emails": "Appels & E-mails",
-      "Projects": "Projets", "Tasks": "Tâches", "Team": "Équipe", "Timesheets": "Feuilles de temps",
-      "Accounts": "Comptes", "Transactions": "Transactions", "Budgets": "Budgets",
-      "Expenses": "Dépenses", "Ledger": "Grand livre", "Invoices": "Factures",
-      "Tax Reports": "Rapports fiscaux", "Reconciliation": "Rapprochement",
-      "Cards": "Cartes", "Transfers": "Virements", "Loans": "Prêts",
-      "Int'l Wires": "Virements internationaux", "Portfolio": "Portefeuille",
-      "Market Watch": "Suivi du marché", "Trends": "Tendances", "Vault": "Coffre",
-      "Patients": "Patients", "Doctors": "Médecins", "Appointments": "Rendez-vous",
-      "Wards & Beds": "Services & Lits", "Pharmacy": "Pharmacie", "Ambulance": "Ambulance",
-      "Billing": "Facturation", "Students": "Étudiants", "Classes": "Classes",
-      "Attendance": "Présence", "Exams": "Examens", "Courses": "Cours",
-      "Learners": "Apprenants", "Assessments": "Évaluations", "Engagement": "Engagement",
-      "Rooms": "Chambres", "Reservations": "Réservations", "Guests": "Invités",
-      "Housekeeping": "Entretien ménager", "Menu": "Menu", "Tables": "Tables",
-      "Kitchen Display": "Affichage cuisine", "Live Orders": "Commandes en direct",
-      "Riders": "Livreurs", "Restaurants": "Restaurants", "Delivery Zones": "Zones de livraison",
-      "Flights": "Vols", "Cabs": "Taxis", "Cruises": "Croisières", "Trips": "Voyages",
-      "Bookings": "Réservations", "Itineraries": "Itinéraires", "Keyword Rank": "Classement mots-clés",
-      "Backlinks": "Backlinks", "Site Audit": "Audit du site", "Traffic": "Trafic",
-      "Employees": "Employés", "Payroll": "Paie", "Leave Requests": "Demandes de congé",
-      "Performance Reviews": "Évaluations de performance", "AI Insights": "Aperçus IA",
-      "Chatbot Assistant": "Assistant chatbot", "Predictions": "Prédictions",
-      "Model Settings": "Paramètres du modèle", "Management": "Gestion",
-      "Customers": "Clients", "Payments": "Paiements", "Users & Access": "Utilisateurs & Accès",
-      "Users": "Utilisateurs", "Roles": "Rôles", "Permissions": "Autorisations",
-      "Reports": "Rapports", "Sales & Ecommerce": "Ventes & E-commerce", "Sales": "Ventes",
-      "Revenue": "Revenu", "Product Performance": "Performance produit",
-      "Order Summary": "Résumé des commandes", "Discount & Coupon": "Remise & Coupon",
-      "Customer Purchase": "Achat client", "Cart Abandonment": "Abandon de panier",
-      "Inventory & Logistics": "Inventaire & Logistique", "Stock Summary": "Résumé du stock",
-      "Stock Movement": "Mouvement de stock", "Purchase Order": "Bon de commande",
-      "Supplier Performance": "Performance fournisseur", "Shipment / Delivery": "Expédition / Livraison",
-      "CRM & Sales Pipeline": "GRC & Pipeline de ventes", "Lead Conversion": "Conversion de prospects",
-      "Deals Pipeline": "Pipeline d'affaires", "Sales Rep Performance": "Performance commerciale",
-      "Activity": "Activité", "Leave": "Congé", "Employee Performance": "Performance employé",
-      "Project Progress": "Avancement du projet", "Task Completion": "Achèvement des tâches",
-      "Time Tracking": "Suivi du temps", "Resource Utilization": "Utilisation des ressources",
-      "Support / Helpdesk": "Support / Assistance", "Ticket Summary": "Résumé des tickets",
-      "Agent Performance": "Performance agent", "SLA Compliance": "Conformité SLA",
-      "General": "Général", "User Activity": "Activité utilisateur", "Audit Log": "Journal d'audit",
-      "System Usage": "Utilisation système", "Custom Report Builder": "Créateur de rapports",
-      "Activity Log": "Journal d'activité", "UI Interface": "Interface UI", "Base UI": "UI de base",
-      "Alerts": "Alertes", "Accordion": "Accordéon", "Avatar": "Avatar", "Badges": "Badges",
-      "Buttons": "Boutons", "Button Group": "Groupe de boutons", "Breadcrumb": "Fil d'Ariane",
-      "Card": "Carte", "Colors": "Couleurs", "Collapse": "Repli", "Dropdowns": "Menus déroulants",
-      "Grid": "Grille", "Images": "Images", "Modals": "Fenêtres modales", "Offcanvas": "Panneau latéral",
-      "Pagination": "Pagination", "Popovers": "Popovers", "Progress": "Progression",
-      "Tabs": "Onglets", "Typography": "Typographie", "Advanced UI": "UI avancée",
-      "Dragula": "Dragula", "Clipboard": "Presse-papiers", "Range Slider": "Curseur de plage",
-      "Lightbox": "Lightbox", "Forms": "Formulaires", "Form Elements": "Éléments de formulaire",
-      "Select2": "Select2", "Form Editor": "Éditeur de formulaire", "Form Picker": "Sélecteur de formulaire",
-      "Data Table": "Tableau de données", "Basic Tables": "Tableaux simples", "Charts": "Graphiques",
-      "Apex Charts": "Graphiques Apex", "Chart Js": "Chart Js", "Icons": "Icônes",
-      "Fontawesome Icons": "Icônes Fontawesome", "Lucide": "Lucide", "Phosphor": "Phosphor",
-      "Account": "Compte", "Profile": "Profil", "Settings": "Paramètres",
-      "Notifications": "Notifications", "Pages": "Pages", "Authentication": "Authentification",
-      "Login": "Connexion", "Register": "Inscription", "Forgot Password": "Mot de passe oublié",
-      "Reset Password": "Réinitialiser le mot de passe", "Lock Screen": "Écran verrouillé",
-      "Two-Factor Auth": "Authentification à deux facteurs", "Error Pages": "Pages d'erreur",
-      "404 Not Found": "404 Introuvable", "500 Server Error": "500 Erreur serveur",
-      "Support": "Support", "Documentation": "Documentation", "FAQ": "FAQ",
-      "Help Center": "Centre d'aide"
-    },
-    de: {
-      "Favorites": "Favoriten", "Dashboard": "Dashboard", "All Patients": "Alle Patienten",
-      "View 4 more": "4 weitere anzeigen", "Upgrade plan": "Plan upgraden", "Storage": "Speicher",
-      "Main": "Hauptmenü", "Dashboards": "Dashboards", "Ecommerce": "E-Commerce",
-      "AI Analytics": "KI-Analyse", "Business Intelligence": "Business Intelligence",
-      "Sales Analytics": "Verkaufsanalyse", "Project Management": "Projektmanagement",
-      "Finance": "Finanzen", "Accounting": "Buchhaltung", "Banking": "Banking",
-      "Crypto Analytics": "Krypto-Analyse", "Logistics": "Logistik",
-      "Hospital Management": "Krankenhausverwaltung", "School Management": "Schulverwaltung",
-      "LMS Analytics": "LMS-Analyse", "Hotel Management": "Hotelverwaltung",
-      "Restaurant POS": "Restaurant-Kasse", "Food Delivery": "Essenslieferung",
-      "Travel & Booking": "Reisen & Buchung", "SEO Analytics": "SEO-Analyse",
-      "CRM": "CRM", "HRM": "HRM", "Applications": "Anwendungen", "Chat": "Chat",
-      "AI Chat": "KI-Chat", "Calls": "Anrufe", "Voice Call": "Sprachanruf", "Video Call": "Videoanruf",
-      "Calendar": "Kalender", "Email": "E-Mail", "File Manager": "Dateimanager",
-      "Kanban": "Kanban", "Notes": "Notizen", "To Do": "Aufgaben",
-      "Workflow & Approvals": "Workflow & Genehmigungen", "Storefront": "Schaufenster",
-      "Products": "Produkte", "Orders": "Bestellungen", "Categories": "Kategorien",
-      "Reviews": "Bewertungen", "BI Overview": "BI-Übersicht", "Data Sources": "Datenquellen",
-      "KPI Builder": "KPI-Ersteller", "Insights": "Einblicke", "Leads": "Leads",
-      "Deals": "Deals", "Quotations": "Angebote", "Pipeline": "Pipeline",
-      "Inventory": "Inventar", "Stock Transfer": "Lagertransfer",
-      "Purchase Orders": "Bestellungen", "Suppliers": "Lieferanten",
-      "Shipments": "Sendungen", "Customer Segments": "Kundensegmente",
-      "Companies": "Unternehmen", "Activities": "Aktivitäten", "Calls & Emails": "Anrufe & E-Mails",
-      "Projects": "Projekte", "Tasks": "Aufgaben", "Team": "Team", "Timesheets": "Zeiterfassung",
-      "Accounts": "Konten", "Transactions": "Transaktionen", "Budgets": "Budgets",
-      "Expenses": "Ausgaben", "Ledger": "Hauptbuch", "Invoices": "Rechnungen",
-      "Tax Reports": "Steuerberichte", "Reconciliation": "Abstimmung",
-      "Cards": "Karten", "Transfers": "Überweisungen", "Loans": "Darlehen",
-      "Int'l Wires": "Internationale Überweisungen", "Portfolio": "Portfolio",
-      "Market Watch": "Marktbeobachtung", "Trends": "Trends", "Vault": "Tresor",
-      "Patients": "Patienten", "Doctors": "Ärzte", "Appointments": "Termine",
-      "Wards & Beds": "Stationen & Betten", "Pharmacy": "Apotheke", "Ambulance": "Krankenwagen",
-      "Billing": "Abrechnung", "Students": "Schüler", "Classes": "Klassen",
-      "Attendance": "Anwesenheit", "Exams": "Prüfungen", "Courses": "Kurse",
-      "Learners": "Lernende", "Assessments": "Bewertungen", "Engagement": "Engagement",
-      "Rooms": "Zimmer", "Reservations": "Reservierungen", "Guests": "Gäste",
-      "Housekeeping": "Housekeeping", "Menu": "Speisekarte", "Tables": "Tische",
-      "Kitchen Display": "Küchenanzeige", "Live Orders": "Live-Bestellungen",
-      "Riders": "Fahrer", "Restaurants": "Restaurants", "Delivery Zones": "Lieferzonen",
-      "Flights": "Flüge", "Cabs": "Taxis", "Cruises": "Kreuzfahrten", "Trips": "Reisen",
-      "Bookings": "Buchungen", "Itineraries": "Reisepläne", "Keyword Rank": "Keyword-Ranking",
-      "Backlinks": "Backlinks", "Site Audit": "Website-Audit", "Traffic": "Traffic",
-      "Employees": "Mitarbeiter", "Payroll": "Gehaltsabrechnung", "Leave Requests": "Urlaubsanträge",
-      "Performance Reviews": "Leistungsbeurteilungen", "AI Insights": "KI-Einblicke",
-      "Chatbot Assistant": "Chatbot-Assistent", "Predictions": "Vorhersagen",
-      "Model Settings": "Modelleinstellungen", "Management": "Verwaltung",
-      "Customers": "Kunden", "Payments": "Zahlungen", "Users & Access": "Benutzer & Zugriff",
-      "Users": "Benutzer", "Roles": "Rollen", "Permissions": "Berechtigungen",
-      "Reports": "Berichte", "Sales & Ecommerce": "Vertrieb & E-Commerce", "Sales": "Vertrieb",
-      "Revenue": "Umsatz", "Product Performance": "Produktleistung",
-      "Order Summary": "Bestellübersicht", "Discount & Coupon": "Rabatt & Gutschein",
-      "Customer Purchase": "Kundenkauf", "Cart Abandonment": "Warenkorbabbruch",
-      "Inventory & Logistics": "Inventar & Logistik", "Stock Summary": "Bestandsübersicht",
-      "Stock Movement": "Lagerbewegung", "Purchase Order": "Bestellung",
-      "Supplier Performance": "Lieferantenleistung", "Shipment / Delivery": "Versand / Lieferung",
-      "CRM & Sales Pipeline": "CRM & Vertriebspipeline", "Lead Conversion": "Lead-Konversion",
-      "Deals Pipeline": "Deal-Pipeline", "Sales Rep Performance": "Vertriebsleistung",
-      "Activity": "Aktivität", "Leave": "Urlaub", "Employee Performance": "Mitarbeiterleistung",
-      "Project Progress": "Projektfortschritt", "Task Completion": "Aufgabenerledigung",
-      "Time Tracking": "Zeiterfassung", "Resource Utilization": "Ressourcennutzung",
-      "Support / Helpdesk": "Support / Helpdesk", "Ticket Summary": "Ticketübersicht",
-      "Agent Performance": "Agentenleistung", "SLA Compliance": "SLA-Einhaltung",
-      "General": "Allgemein", "User Activity": "Benutzeraktivität", "Audit Log": "Prüfprotokoll",
-      "System Usage": "Systemnutzung", "Custom Report Builder": "Berichts-Generator",
-      "Activity Log": "Aktivitätsprotokoll", "UI Interface": "UI-Oberfläche", "Base UI": "Basis-UI",
-      "Alerts": "Warnungen", "Accordion": "Akkordeon", "Avatar": "Avatar", "Badges": "Badges",
-      "Buttons": "Schaltflächen", "Button Group": "Schaltflächengruppe", "Breadcrumb": "Breadcrumb",
-      "Card": "Karte", "Colors": "Farben", "Collapse": "Einklappen", "Dropdowns": "Dropdowns",
-      "Grid": "Raster", "Images": "Bilder", "Modals": "Modale", "Offcanvas": "Offcanvas",
-      "Pagination": "Seitennummerierung", "Popovers": "Popovers", "Progress": "Fortschritt",
-      "Tabs": "Tabs", "Typography": "Typografie", "Advanced UI": "Erweiterte UI",
-      "Dragula": "Dragula", "Clipboard": "Zwischenablage", "Range Slider": "Bereichsregler",
-      "Lightbox": "Lightbox", "Forms": "Formulare", "Form Elements": "Formularelemente",
-      "Select2": "Select2", "Form Editor": "Formular-Editor", "Form Picker": "Formularauswahl",
-      "Data Table": "Datentabelle", "Basic Tables": "Einfache Tabellen", "Charts": "Diagramme",
-      "Apex Charts": "Apex-Diagramme", "Chart Js": "Chart Js", "Icons": "Symbole",
-      "Fontawesome Icons": "Fontawesome-Symbole", "Lucide": "Lucide", "Phosphor": "Phosphor",
-      "Account": "Konto", "Profile": "Profil", "Settings": "Einstellungen",
-      "Notifications": "Benachrichtigungen", "Pages": "Seiten", "Authentication": "Authentifizierung",
-      "Login": "Anmelden", "Register": "Registrieren", "Forgot Password": "Passwort vergessen",
-      "Reset Password": "Passwort zurücksetzen", "Lock Screen": "Sperrbildschirm",
-      "Two-Factor Auth": "Zwei-Faktor-Authentifizierung", "Error Pages": "Fehlerseiten",
-      "404 Not Found": "404 Nicht gefunden", "500 Server Error": "500 Serverfehler",
-      "Support": "Support", "Documentation": "Dokumentation", "FAQ": "FAQ",
-      "Help Center": "Hilfezentrum"
-    },
-    ar: {
-      "Favorites": "المفضلة", "Dashboard": "لوحة التحكم", "All Patients": "جميع المرضى",
-      "View 4 more": "عرض 4 أخرى", "Upgrade plan": "ترقية الخطة", "Storage": "التخزين",
-      "Main": "الرئيسية", "Dashboards": "لوحات التحكم", "Ecommerce": "التجارة الإلكترونية",
-      "AI Analytics": "تحليلات الذكاء الاصطناعي", "Business Intelligence": "ذكاء الأعمال",
-      "Sales Analytics": "تحليلات المبيعات", "Project Management": "إدارة المشاريع",
-      "Finance": "المالية", "Accounting": "المحاسبة", "Banking": "الخدمات المصرفية",
-      "Crypto Analytics": "تحليلات العملات الرقمية", "Logistics": "اللوجستيات",
-      "Hospital Management": "إدارة المستشفى", "School Management": "إدارة المدرسة",
-      "LMS Analytics": "تحليلات نظام التعلم", "Hotel Management": "إدارة الفندق",
-      "Restaurant POS": "نقاط بيع المطعم", "Food Delivery": "توصيل الطعام",
-      "Travel & Booking": "السفر والحجز", "SEO Analytics": "تحليلات السيو",
-      "CRM": "إدارة علاقات العملاء", "HRM": "إدارة الموارد البشرية", "Applications": "التطبيقات",
-      "Chat": "الدردشة", "AI Chat": "دردشة الذكاء الاصطناعي", "Calls": "المكالمات",
-      "Voice Call": "مكالمة صوتية", "Video Call": "مكالمة فيديو", "Calendar": "التقويم",
-      "Email": "البريد الإلكتروني", "File Manager": "مدير الملفات", "Kanban": "كانبان",
-      "Notes": "الملاحظات", "To Do": "المهام", "Workflow & Approvals": "سير العمل والموافقات",
-      "Storefront": "واجهة المتجر", "Products": "المنتجات", "Orders": "الطلبات",
-      "Categories": "الفئات", "Reviews": "التقييمات", "BI Overview": "نظرة عامة على ذكاء الأعمال",
-      "Data Sources": "مصادر البيانات", "KPI Builder": "منشئ مؤشرات الأداء", "Insights": "الرؤى",
-      "Leads": "العملاء المحتملون", "Deals": "الصفقات", "Quotations": "عروض الأسعار",
-      "Pipeline": "خط الأنابيب", "Inventory": "المخزون", "Stock Transfer": "نقل المخزون",
-      "Purchase Orders": "أوامر الشراء", "Suppliers": "الموردون", "Shipments": "الشحنات",
-      "Customer Segments": "شرائح العملاء", "Companies": "الشركات", "Activities": "الأنشطة",
-      "Calls & Emails": "المكالمات والبريد الإلكتروني", "Projects": "المشاريع", "Tasks": "المهام",
-      "Team": "الفريق", "Timesheets": "سجلات الدوام", "Accounts": "الحسابات",
-      "Transactions": "المعاملات", "Budgets": "الميزانيات", "Expenses": "المصروفات",
-      "Ledger": "دفتر الأستاذ", "Invoices": "الفواتير", "Tax Reports": "التقارير الضريبية",
-      "Reconciliation": "التسوية", "Cards": "البطاقات", "Transfers": "التحويلات",
-      "Loans": "القروض", "Int'l Wires": "التحويلات الدولية", "Portfolio": "المحفظة",
-      "Market Watch": "مراقبة السوق", "Trends": "الاتجاهات", "Vault": "الخزنة",
-      "Patients": "المرضى", "Doctors": "الأطباء", "Appointments": "المواعيد",
-      "Wards & Beds": "الأجنحة والأسرة", "Pharmacy": "الصيدلية", "Ambulance": "الإسعاف",
-      "Billing": "الفوترة", "Students": "الطلاب", "Classes": "الفصول", "Attendance": "الحضور",
-      "Exams": "الامتحانات", "Courses": "الدورات", "Learners": "المتعلمون",
-      "Assessments": "التقييمات", "Engagement": "التفاعل", "Rooms": "الغرف",
-      "Reservations": "الحجوزات", "Guests": "الضيوف", "Housekeeping": "التدبير المنزلي",
-      "Menu": "القائمة", "Tables": "الطاولات", "Kitchen Display": "شاشة المطبخ",
-      "Live Orders": "الطلبات المباشرة", "Riders": "السائقون", "Restaurants": "المطاعم",
-      "Delivery Zones": "مناطق التوصيل", "Flights": "الرحلات الجوية", "Cabs": "سيارات الأجرة",
-      "Cruises": "الرحلات البحرية", "Trips": "الرحلات", "Bookings": "الحجوزات",
-      "Itineraries": "خطط الرحلات", "Keyword Rank": "ترتيب الكلمات المفتاحية",
-      "Backlinks": "الروابط الخلفية", "Site Audit": "تدقيق الموقع", "Traffic": "الزيارات",
-      "Employees": "الموظفون", "Payroll": "الرواتب", "Leave Requests": "طلبات الإجازة",
-      "Performance Reviews": "تقييمات الأداء", "AI Insights": "رؤى الذكاء الاصطناعي",
-      "Chatbot Assistant": "مساعد الدردشة الآلي", "Predictions": "التوقعات",
-      "Model Settings": "إعدادات النموذج", "Management": "الإدارة", "Customers": "العملاء",
-      "Payments": "المدفوعات", "Users & Access": "المستخدمون والوصول", "Users": "المستخدمون",
-      "Roles": "الأدوار", "Permissions": "الصلاحيات", "Reports": "التقارير",
-      "Sales & Ecommerce": "المبيعات والتجارة الإلكترونية", "Sales": "المبيعات",
-      "Revenue": "الإيرادات", "Product Performance": "أداء المنتج",
-      "Order Summary": "ملخص الطلبات", "Discount & Coupon": "الخصومات والقسائم",
-      "Customer Purchase": "مشتريات العملاء", "Cart Abandonment": "التخلي عن السلة",
-      "Inventory & Logistics": "المخزون واللوجستيات", "Stock Summary": "ملخص المخزون",
-      "Stock Movement": "حركة المخزون", "Purchase Order": "أمر الشراء",
-      "Supplier Performance": "أداء المورد", "Shipment / Delivery": "الشحن / التسليم",
-      "CRM & Sales Pipeline": "إدارة العملاء وخط المبيعات", "Lead Conversion": "تحويل العملاء المحتملين",
-      "Deals Pipeline": "خط الصفقات", "Sales Rep Performance": "أداء مندوب المبيعات",
-      "Activity": "النشاط", "Leave": "الإجازة", "Employee Performance": "أداء الموظف",
-      "Project Progress": "تقدم المشروع", "Task Completion": "إنجاز المهام",
-      "Time Tracking": "تتبع الوقت", "Resource Utilization": "استخدام الموارد",
-      "Support / Helpdesk": "الدعم / مكتب المساعدة", "Ticket Summary": "ملخص التذاكر",
-      "Agent Performance": "أداء الوكيل", "SLA Compliance": "الامتثال لاتفاقية مستوى الخدمة",
-      "General": "عام", "User Activity": "نشاط المستخدم", "Audit Log": "سجل التدقيق",
-      "System Usage": "استخدام النظام", "Custom Report Builder": "منشئ التقارير المخصصة",
-      "Activity Log": "سجل النشاط", "UI Interface": "واجهة المستخدم", "Base UI": "الواجهة الأساسية",
-      "Alerts": "التنبيهات", "Accordion": "أكورديون", "Avatar": "الصورة الرمزية",
-      "Badges": "الشارات", "Buttons": "الأزرار", "Button Group": "مجموعة الأزرار",
-      "Breadcrumb": "مسار التنقل", "Card": "البطاقة", "Colors": "الألوان",
-      "Collapse": "الطي", "Dropdowns": "القوائم المنسدلة", "Grid": "الشبكة",
-      "Images": "الصور", "Modals": "النوافذ المنبثقة", "Offcanvas": "اللوحة الجانبية",
-      "Pagination": "ترقيم الصفحات", "Popovers": "النوافذ المنبثقة الصغيرة",
-      "Progress": "التقدم", "Tabs": "علامات التبويب", "Typography": "الطباعة",
-      "Advanced UI": "واجهة متقدمة", "Dragula": "دراجولا", "Clipboard": "الحافظة",
-      "Range Slider": "شريط النطاق", "Lightbox": "لايت بوكس", "Forms": "النماذج",
-      "Form Elements": "عناصر النموذج", "Select2": "سيليكت 2", "Form Editor": "محرر النموذج",
-      "Form Picker": "منتقي النموذج", "Data Table": "جدول البيانات",
-      "Basic Tables": "جداول أساسية", "Charts": "الرسوم البيانية", "Apex Charts": "رسوم Apex",
-      "Chart Js": "Chart Js", "Icons": "الأيقونات", "Fontawesome Icons": "أيقونات Fontawesome",
-      "Lucide": "Lucide", "Phosphor": "Phosphor", "Account": "الحساب", "Profile": "الملف الشخصي",
-      "Settings": "الإعدادات", "Notifications": "الإشعارات", "Pages": "الصفحات",
-      "Authentication": "المصادقة", "Login": "تسجيل الدخول", "Register": "التسجيل",
-      "Forgot Password": "نسيت كلمة المرور", "Reset Password": "إعادة تعيين كلمة المرور",
-      "Lock Screen": "شاشة القفل", "Two-Factor Auth": "المصادقة الثنائية",
-      "Error Pages": "صفحات الخطأ", "404 Not Found": "404 غير موجود",
-      "500 Server Error": "500 خطأ في الخادم", "Support": "الدعم",
-      "Documentation": "التوثيق", "FAQ": "الأسئلة الشائعة", "Help Center": "مركز المساعدة"
-    }
-  };
-
-  const SELECTOR = ".sidebar-inner .sidebar-label, .sidebar-inner .sidebar-group-title, .sidebar-inner [data-favorites-more]";
-
-  function getStoredLang() {
-    return localStorage.getItem(STORAGE_KEY) || "en";
-  }
-
-  function applyLang(lang) {
-    document.querySelectorAll(SELECTOR).forEach((el) => {
-      if (!el.dataset.i18nOriginal) el.dataset.i18nOriginal = el.textContent.trim();
-      const original = el.dataset.i18nOriginal;
-      const translated = (DICT[lang] && DICT[lang][original]) || original;
-      // Preserve any trailing icon inside "View 4 more" style buttons.
-      const icon = el.querySelector("i");
-      el.textContent = translated;
-      if (icon) el.appendChild(icon);
-    });
-
-    document.querySelectorAll(".lang-option").forEach((btn) => {
-      const check = btn.querySelector(".icon-check");
-      if (!check) return;
-      check.classList.toggle("opacity-0", btn.dataset.langSet !== lang);
-      check.classList.toggle("opacity-100", btn.dataset.langSet === lang);
-    });
-  }
-
-  function setLang(lang) {
-    localStorage.setItem(STORAGE_KEY, lang);
-    applyLang(lang);
-  }
-
-  applyLang(getStoredLang());
-
-  document.addEventListener("click", (e) => {
-    const trigger = e.target.closest("[data-lang-set]");
-    if (!trigger) return;
-    setLang(trigger.dataset.langSet);
-  });
+  try {
+    localStorage.removeItem("dreamscore-lang");
+  } catch (e) {}
 })();
-
 
 // ---- sidebar.js ----
 // ---- sidebar.js --------------------------------------------------------------
@@ -536,7 +146,15 @@ document.addEventListener("click", function (e) {
   const sidebar = document.getElementById("appSidebar");
   const collapseBtn = document.getElementById("sidebarCollapseBtn");
   const mobileBtn = document.getElementById("mobileSidebarBtn");
-  const COLLAPSE_KEY = "dreamscore-sidebar-collapsed";
+  const COLLAPSE_KEY = "sidebar-collapsed";
+  try {
+    if (localStorage.getItem("dreamscore-sidebar-collapsed") !== null) {
+      if (localStorage.getItem(COLLAPSE_KEY) === null) {
+        localStorage.setItem(COLLAPSE_KEY, localStorage.getItem("dreamscore-sidebar-collapsed"));
+      }
+      localStorage.removeItem("dreamscore-sidebar-collapsed");
+    }
+  } catch (e) {}
 
   // ---- Desktop collapse ----------------------------------------------------
   function applyCollapsed(collapsed) {
@@ -1119,32 +737,6 @@ document.addEventListener("click", function (e) {
 })();
 
 
-// ---- fullscreen.js ----
-// ---- fullscreen.js --------------------------------------------------------------
-(function () {
-  const btn = document.getElementById("fullscreenBtn");
-  const icon = document.getElementById("fullscreenIcon");
-
-  if (btn) {
-    btn.addEventListener("click", () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(() => {});
-      } else {
-        document.exitFullscreen().catch(() => {});
-      }
-    });
-
-    document.addEventListener("fullscreenchange", () => {
-      if (!icon) return;
-      icon.className = icon.className.replace(
-        /icon-\S+/,
-        document.fullscreenElement ? "icon-minimize-2" : "icon-maximize"
-      );
-    });
-  }
-})();
-
-
 // ---- ui-interactions.js ----
 // ---- ui-interactions.js --------------------------------------------------------------
 // Generic, reusable interaction patterns for the UI showcase pages.
@@ -1385,8 +977,7 @@ document.addEventListener("click", function (e) {
     if (saveView) window.saveCurrentView(saveView);
   });
 
-  // ---- Fullscreen toggle (generic, any [data-fullscreen-toggle] — e.g. a report page's own
-  // "Full Screen" button, distinct from the topbar's id="fullscreenBtn" one) --------------------
+  // ---- Fullscreen toggle for page-level [data-fullscreen-toggle] controls ----------------------
   document.addEventListener("click", (e) => {
     if (!e.target.closest("[data-fullscreen-toggle]")) return;
     if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});

@@ -4,8 +4,21 @@
     height: 80px;
 }
 
-#chatOffcanvas {
-    right: 0;
-    transform: translateX(100%);
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+/* Fix empty space in collapsed submenus without breaking the transition */
+.has-submenu:not(.is-open) .sidebar-submenu {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    border-color: transparent !important;
+}
+
+/* Space below open submenu before the next Level 1 menu item */
+.has-submenu.is-open>.sidebar-submenu {
+    margin-bottom: 0.25rem !important;
+}
+
+.sidebar-submenu {
+    transition:
+        max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        padding-block 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        margin-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
