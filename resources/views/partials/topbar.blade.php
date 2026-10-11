@@ -11,7 +11,7 @@
         </button>
 
         <!-- Mobile logo (shown next to the sidebar toggle on small screens) -->
-        <a href="{{url('index')}}" class="lg:hidden shrink-0" aria-label="Dreams Core">
+        <a href="{{route('dashboard')}}" class="lg:hidden shrink-0" aria-label="Dreams Core">
             <img src="{{URL::asset('build/img/logo-small.svg')}}" alt="Dreams Core logo" class="size-8 object-contain">
         </a>
 
@@ -46,7 +46,7 @@
                         <span class="text-[10.5px] font-semibold uppercase tracking-wide shrink-0 text-[var(--text-tertiary)]">Recent</span>
                         <a href="{{url('orders')}}" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11.5px] font-medium shrink-0 transition-colors hover:bg-[var(--surface-sunken)] border border-[var(--border-subtle)]"><i class="icon-shopping-bag text-[11px] text-[var(--color-info-600)]"></i>Orders</a>
                         <a href="{{url('products-list')}}" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11.5px] font-medium shrink-0 transition-colors hover:bg-[var(--surface-sunken)] border border-[var(--border-subtle)]"><i class="icon-package text-[11px] text-[var(--color-accent-600)]"></i>Products</a>
-                        <a href="{{url('index')}}" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11.5px] font-medium shrink-0 transition-colors hover:bg-[var(--surface-sunken)] border border-[var(--border-subtle)]"><i class="icon-store text-[11px] text-[var(--color-primary-600)]"></i>Ecommerce</a>
+                        <a href="{{route('dashboard')}}" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11.5px] font-medium shrink-0 transition-colors hover:bg-[var(--surface-sunken)] border border-[var(--border-subtle)]"><i class="icon-store text-[11px] text-[var(--color-primary-600)]"></i>Ecommerce</a>
                         <a href="#" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11.5px] font-medium shrink-0 transition-colors hover:bg-[var(--surface-sunken)] border border-[var(--border-subtle)]"><i class="icon-contact text-[11px] text-[var(--color-success-600)]"></i>CRM</a>
                     </div>
 
@@ -55,7 +55,7 @@
                         <div class="p-5 lg:border-e border-[var(--border-subtle)]">
                             <p class="flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-wide mb-3 text-[var(--text-tertiary)]"><i class="icon-layout-dashboard text-[11px]"></i>Dashboards</p>
                             <ul class="space-y-0.5">
-                                <li><a href="{{url('index')}}" class="group flex items-center gap-2.5 px-2 py-2 -mx-2 rounded-lg text-[13px] font-medium transition-colors hover:bg-[var(--surface-sunken)]"><span class="icon-chip is-primary size-8 shrink-0"><i class="icon-store text-[13px]"></i></span><span class="flex-1">Ecommerce</span><i class="icon-arrow-up-right text-[11px] opacity-0 -translate-x-1 transition-all group-hover:opacity-60 group-hover:translate-x-0 text-[var(--text-tertiary)]"></i></a></li>
+                                <li><a href="{{route('dashboard')}}" class="group flex items-center gap-2.5 px-2 py-2 -mx-2 rounded-lg text-[13px] font-medium transition-colors hover:bg-[var(--surface-sunken)]"><span class="icon-chip is-primary size-8 shrink-0"><i class="icon-store text-[13px]"></i></span><span class="flex-1">Ecommerce</span><i class="icon-arrow-up-right text-[11px] opacity-0 -translate-x-1 transition-all group-hover:opacity-60 group-hover:translate-x-0 text-[var(--text-tertiary)]"></i></a></li>
                                 <li><a href="#" class="group flex items-center gap-2.5 px-2 py-2 -mx-2 rounded-lg text-[13px] font-medium transition-colors hover:bg-[var(--surface-sunken)]"><span class="icon-chip is-accent size-8 shrink-0"><i class="icon-handshake text-[13px]"></i></span><span class="flex-1">Sales</span><i class="icon-arrow-up-right text-[11px] opacity-0 -translate-x-1 transition-all group-hover:opacity-60 group-hover:translate-x-0 text-[var(--text-tertiary)]"></i></a></li>
                                 <li><a href="#" class="group flex items-center gap-2.5 px-2 py-2 -mx-2 rounded-lg text-[13px] font-medium transition-colors hover:bg-[var(--surface-sunken)]"><span class="icon-chip is-neutral size-8 shrink-0"><i class="icon-warehouse text-[13px]"></i></span><span class="flex-1">Warehouse</span><i class="icon-arrow-up-right text-[11px] opacity-0 -translate-x-1 transition-all group-hover:opacity-60 group-hover:translate-x-0 text-[var(--text-tertiary)]"></i></a></li>
                                 <li><a href="#" class="group flex items-center gap-2.5 px-2 py-2 -mx-2 rounded-lg text-[13px] font-medium transition-colors hover:bg-[var(--surface-sunken)]"><span class="icon-chip is-info size-8 shrink-0"><i class="icon-contact text-[13px]"></i></span><span class="flex-1">CRM</span><i class="icon-arrow-up-right text-[11px] opacity-0 -translate-x-1 transition-all group-hover:opacity-60 group-hover:translate-x-0 text-[var(--text-tertiary)]"></i></a></li>
@@ -371,10 +371,7 @@
                     <div class="mx-3 h-px bg-[var(--border-subtle)]"></div>
 
                     <div class="p-1.5">
-                        <form method="POST" action="{{ route('logout') }}" id="logout-form-topbar" class="hidden">
-                            @csrf
-                        </form>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-topbar').submit();" class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium hover:bg-[var(--surface-sunken)] text-[var(--color-danger-600)]"><span class="grid place-items-center size-7 rounded-lg shrink-0 bg-[color-mix(in_oklab,var(--color-danger-500)_12%,transparent)]"><i class="icon-log-out text-[13.5px]"></i></span>Sign Out</a>
+                        <a href="{{ route('logout') }}" class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium hover:bg-[var(--surface-sunken)] text-[var(--color-danger-600)]"><span class="grid place-items-center size-7 rounded-lg shrink-0 bg-[color-mix(in_oklab,var(--color-danger-500)_12%,transparent)]"><i class="icon-log-out text-[13.5px]"></i></span>Sign Out</a>
                     </div>
                 </div>
             </div>
@@ -385,7 +382,7 @@
 
 <!-- ================= CHAT OFFCANVAS ================= -->
 <div id="chatOffcanvasBackdrop" class="hidden fixed inset-0 z-[60] bg-[rgb(10_12_11_/_0.5)]"></div>
-<aside id="chatOffcanvas" class="fixed top-0 end-0 h-full w-full max-w-sm z-[61] flex flex-col bg-[var(--surface-raised)] [border-inline-start:1px_solid_var(--border-subtle)] shadow-[var(--shadow-xl)] [transform:translateX(100%)] [transition:transform_0.25s_cubic-bezier(0.4,0,0.2,1)]" aria-label="Messages">
+<aside id="chatOffcanvas" class="fixed top-0 end-0 h-full w-full max-w-sm z-[61] flex flex-col bg-[var(--surface-raised)] [border-inline-start:1px_solid_var(--border-subtle)] shadow-[var(--shadow-xl)] translate-x-full transition-transform duration-250 ease-in-out" aria-label="Messages">
 
     <!-- Conversation list view -->
     <div id="chatListView" class="flex flex-col h-full">

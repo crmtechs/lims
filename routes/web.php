@@ -1,17 +1,21 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\RootController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', \App\Http\Controllers\RootController::class)->name('root');
+Route::get('/', RootController::class)->name('root');
 
 Route::middleware('pre-login')->group(function ()
 {
-    Route::get('/login', [\App\Http\Controllers\LoginController::class, 'login'])->name('login');
-    Route::post('/login', [\App\Http\Controllers\LoginController::class, 'login_check'])->name('login.check');
+    Route::get('/login', [LoginController::class, 'login'])->name('login');
+    Route::post('/login', [LoginController::class, 'login_check'])->name('login.check');
 });
 
 Route::group(['middleware' => ['post-login']], function ()
 {
-    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/logout', \App\Http\Controllers\LogoutController::class)->name('logout');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/logout', LogoutController::class)->name('logout');
 });

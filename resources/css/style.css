@@ -9,6 +9,8 @@ Author     : Dreams Technologies
 @import "tailwindcss";
 @import "../../node_modules/preline/variants.css";
 @source not "../../dist";
+@source "../views";
+@source "../js";
 
 @layer theme, base, components, utilities;
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));

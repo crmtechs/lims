@@ -29,7 +29,7 @@ class LoginController extends Controller
         else
         {
             $user = User::where('username', $username)->first();
-            
+
             if ($user)
             {
                 if (Hash::check($password, $user->password))
@@ -54,8 +54,11 @@ class LoginController extends Controller
                             $remember = $request->boolean('remember');
 
                             Auth::login($user, $remember);
+
                             $request->session()->regenerate();
                             $return['status'] = 'success';
+
+                            $return['redirect'] = route('dashboard');
                         }
                     }
                 }

@@ -1,6 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
+    <script>
+        (function() {
+            try {
+                const theme = localStorage.getItem('dreamscore-theme') || 'light';
+                const effective = theme === 'system'
+                    ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+                    : theme;
+                document.documentElement.setAttribute('data-theme', effective);
+            } catch (e) {}
+        })();
+    </script>
+
     <title>
         {{ config('app.title') }} @hasSection('title') : @yield('title') @endif
     </title>

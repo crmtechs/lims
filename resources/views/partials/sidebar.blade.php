@@ -3,7 +3,7 @@
 
     <!-- Logo + collapse toggle -->
     <div class="flex items-center justify-between h-16 px-4 shrink-0 border-b border-[var(--sidebar-border)]">
-        <a href="{{url('index')}}" class="flex items-center gap-2.5 min-w-0 rounded-xl px-2.5 py-1.5">
+        <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5 min-w-0 rounded-xl px-2.5 py-1.5">
             <img src="{{URL::asset('build/img/logo.svg')}}" alt="Dreams Core logo" class="sidebar-logo-full max-w-[150px] object-contain shrink-0">
             <img src="{{URL::asset('build/img/logo-small.svg')}}" alt="Dreams Core logo" class="sidebar-logo-small size-8 object-contain shrink-0 hidden">
         </a>
@@ -26,7 +26,7 @@
                     </button>
                     <div class="sidebar-submenu !ms-0 !ps-0 favorite-tile-panel">
                         <div class="grid grid-cols-2 gap-2 pt-1 pb-1">
-                            <a href="{{url('index')}}" class="favorite-tile is-active">
+                            <a href="{{ route('dashboard') }}" class="favorite-tile is-active">
                                 <i class="ph ph-star favorite-tile-star"></i>
                                 <span class="grid place-items-center size-9 rounded-lg badge-solid-primary"><i class="icon-layout-dashboard text-[15px]"></i></span>
                                 <span class="text-[11px] font-medium text-center truncate w-full">Dashboard</span>
@@ -96,7 +96,7 @@
                     <li><a href="{{url('food-delivery')}}" class="sidebar-link !text-[12.5px]"><span class="sidebar-label">Food Delivery</span></a></li>
                     <li><a href="{{url('travel-booking')}}" class="sidebar-link !text-[12.5px]"><span class="sidebar-label">Travel &amp; Booking</span></a></li>
                     <li><a href="{{url('seo-analytics-dashboard')}}" class="sidebar-link !text-[12.5px]"><span class="sidebar-label">SEO Analytics</span></a></li>
-                    <li><a href="{{url('crm-dashboard')}}" class="sidebar-link !text-[12.5px]"><span class="sidebar-label">CRM</span></a></li>
+                    <li><a href="{{ route('dashboard') }}" class="sidebar-link !text-[12.5px]"><span class="sidebar-label">CRM</span></a></li>
                     <li><a href="{{url('hrm-dashboard')}}" class="sidebar-link !text-[12.5px]"><span class="sidebar-label">HRM</span></a></li>
                 </ul>
             </li>
@@ -629,10 +629,7 @@
                     <span class="block text-[10.5px] truncate text-[var(--sidebar-text)]">Product Admin</span>
                 </span>
             </a>
-            <form method="POST" action="{{ route('logout') }}" id="logout-form" class="hidden">
-                @csrf
-            </form>
-            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="workspace-text header-icon-btn !text-white/60 hover:!text-white hover:!bg-white/10 !size-7 shrink-0" title="Sign out" aria-label="Sign out"><i class="icon-log-out text-[14px]"></i></a>
+            <a href="{{ route('logout') }}" class="workspace-text header-icon-btn !text-white/60 hover:!text-white hover:!bg-white/10 !size-7 shrink-0" title="Sign out" aria-label="Sign out"><i class="icon-log-out text-[14px]"></i></a>
         </div>
     </div>
 

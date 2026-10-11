@@ -142,6 +142,7 @@ function autoCopyLibsPlugin() {
 
 export default defineConfig({
     plugins: [
+        tailwindcss(),
         laravel({
             input: [
                 'resources/css/style.css',
@@ -164,7 +165,6 @@ export default defineConfig({
             refresh: true,
         }),
         autoCopyLibsPlugin(),
-        tailwindcss(),
         viteStaticCopy({
             targets: [                
                 { src: "node_modules/apexcharts/dist/apexcharts.min.js", dest: "libs/apexcharts", rename: { stripBase: true } },

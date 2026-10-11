@@ -4052,7 +4052,7 @@
     @include('partials.import-export-modals', ['ieEntity' => 'CRM Activities'])
 @endif
 
-@if (Route::is(['crm-dashboard']))
+@if (Route::is(['crm-dashboard', 'dashboard']))
     <!-- ============ Deal Detail Drawer (stub) ============ -->
     <div class="drawer-backdrop hidden" id="dealDrawerBackdrop" data-hs-overlay="#dealDrawer"></div>
     <div id="dealDrawer" class="hs-overlay drawer-panel hidden !max-w-sm p-5 overflow-y-auto scroll-thin">

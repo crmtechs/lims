@@ -44,13 +44,13 @@ $(document).ready(function () {
                             showError('Software license expired');
                             break;
                         case 'auth_failed':
-                            showError("{{ trans('auth.failed') }}");
+                            showError('Authentication failed');
                             break;
                         default:
                             showError('An unknown error occurred');
                     }
                 } else if (response.status === 'success') {
-                    window.location.href = "{{ route('dashboard') }}";
+                    window.location.href = response.redirect;
                 }
             },
             error: function () {
