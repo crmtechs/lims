@@ -13,6 +13,13 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: '*');
+        $middleware->alias([
+            'pre-login' => \App\Http\Middleware\PreLogin::class,
+            'post-login' => \App\Http\Middleware\PostLogin::class,
+            'type-user' => \App\Http\Middleware\TypeUser::class,
+            'type-admin' => \App\Http\Middleware\TypeAdmin::class,
+            'type-super' => \App\Http\Middleware\TypeSuper::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

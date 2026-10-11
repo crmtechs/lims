@@ -1,3 +1,6 @@
+<!-- jQuery -->
+<script src="{{ asset('build/libs/jquery/jquery.min.js') }}"></script>
+
 <!-- ApexCharts -->
 <script src="{{ asset('build/libs/apexcharts/apexcharts.min.js') }}"></script>
 

@@ -10,8 +10,10 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
-            $table->string('name');
+            $table->string('first_name', 100)->nullable();
+            $table->string('last_name', 100)->nullable();
             $table->string('username')->unique();
+            $table->string('user_type', 50)->default('user');
             $table->string('email');
             $table->string('password');
             $table->string('status')->default('active');
