@@ -11,8 +11,8 @@
         </button>
 
         <!-- Mobile logo (shown next to the sidebar toggle on small screens) -->
-        <a href="{{route('dashboard')}}" class="lg:hidden shrink-0" aria-label="Dreams Core">
-            <img src="{{URL::asset('build/img/logo-small.svg')}}" alt="Dreams Core logo" class="size-8 object-contain">
+        <a href="{{ route('dashboard') }}" class="lg:hidden shrink-0" aria-label="Logo">
+            <img src="{{ asset('images/logo-small.png') }}" alt="Logo" class="size-8 object-contain">
         </a>
 
         <!-- Global search -->
