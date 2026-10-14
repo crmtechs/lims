@@ -10,9 +10,7 @@
         })();
     </script>
 
-    <title>
-        {{ config('app.title') }} @hasSection('title') : @yield('title') @endif
-    </title>
+    <title>{{ config('app.title') }}@hasSection('title') : @yield('title')@endif</title>
 
     @include('layouts.css')
     @stack('styles')

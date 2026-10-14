@@ -3,9 +3,13 @@
     <div class="flex flex-wrap items-center justify-between gap-2 max-w-[1600px] mx-auto">
         <h2 class="font-display font-bold text-[13px] tracking-wide uppercase">{!! $breadcrumb ?? '' !!}</h2>
         <div class="flex items-center gap-1.5 text-[12px] font-medium">
-            <span class="text-[var(--text-tertiary)]">Home</span>
-            <span class="text-[var(--text-tertiary)]">/</span>
-            <a href="{{ route('dashboard') }}" class="text-[var(--color-primary-600)]">{!! $breadcrumb ?? '' !!}</a>
+            @hasSection('breadcrumbs')
+                @yield('breadcrumbs')
+            @else
+                <a href="{{ route('dashboard') }}" class="text-[var(--color-primary-600)]">Dashboards</a>
+                <span class="text-[var(--text-tertiary)]">/</span>
+                <span class="text-[var(--text-tertiary)]">{!! $breadcrumb ?? '' !!}</span>
+            @endif
         </div>
     </div>
 </div>

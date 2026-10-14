@@ -15,25 +15,25 @@
     <!-- Main navigation -->
     <nav class="sidebar-inner flex-1 overflow-y-auto scroll-thin px-3 pb-4 mt-1" aria-label="Sidebar navigation">
         <ul id="sidebarMenu" role="menu" aria-label="Main navigation">
-            <li class="has-submenu is-open">
+            <li class="has-submenu {{ request()->routeIs('dashboard') ? 'is-open' : '' }}" data-open="{{ request()->routeIs('dashboard') ? 'true' : 'false' }}">
                 <button type="button" class="sidebar-link w-full" data-submenu-toggle>
                     <i class="icon-home text-[16px]"></i>
                     <span class="sidebar-label">Home</span>
                     <i class="icon-chevron-right sidebar-chevron text-[11px]"></i>
                 </button>
                 <ul class="sidebar-submenu">
-                    <li><a href="{{ route('dashboard') }}" class="sidebar-link !text-[12.5px]" wire:navigate><span class="sidebar-label">Dashboard</span></a></li>
+                    <li><a href="{{ route('dashboard') }}" class="sidebar-link !text-[12.5px] {{ request()->routeIs('dashboard') ? 'is-active' : '' }}" wire:navigate data-active="{{ request()->routeIs('dashboard') ? 'true' : 'false' }}"><span class="sidebar-label">Dashboard</span></a></li>
                 </ul>
             </li>
 
-            <li class="has-submenu">
+            <li class="has-submenu {{ request()->routeIs('core.*') ? 'is-open' : '' }}" data-open="{{ request()->routeIs('core.*') ? 'true' : 'false' }}">
                 <button type="button" class="sidebar-link w-full" data-submenu-toggle>
                     <i class="icon-cpu text-[16px]"></i>
                     <span class="sidebar-label">Core</span>
                     <i class="icon-chevron-right sidebar-chevron text-[11px]"></i>
                 </button>
                 <ul class="sidebar-submenu">
-                    <li><a href="javascript:void(0);" class="sidebar-link !text-[12.5px]"><span class="sidebar-label">Disciplines</span></a></li>
+                    <li><a href="{{ route('core.disciplines.index') }}" class="sidebar-link !text-[12.5px] {{ request()->routeIs('core.disciplines.*') ? 'is-active' : '' }}" data-active="{{ request()->routeIs('core.disciplines.*') ? 'true' : 'false' }}"><span class="sidebar-label">Disciplines</span></a></li>
                     <li><a href="javascript:void(0);" class="sidebar-link !text-[12.5px]"><span class="sidebar-label">Discipline Groups</span></a></li>
                 </ul>
             </li>
