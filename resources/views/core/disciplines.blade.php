@@ -1,15 +1,5 @@
 @extends('layouts.app')
 
-@section('title', 'Disciplines')
-
-@section('breadcrumb', 'Disciplines')
-
-@section('breadcrumbs')
-    <span class="text-[var(--text-tertiary)]">Core</span>
-    <span class="text-[var(--text-tertiary)]">/</span>
-    <span class="text-[var(--text-tertiary)]">Disciplines</span>
-@endsection
-
 @section('content')
 <main class="p-4 lg:p-6 space-y-5 max-w-full mx-auto w-full">
 

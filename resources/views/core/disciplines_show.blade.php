@@ -1,17 +1,5 @@
 @extends('layouts.app')
 
-@section('title', 'Discipline: ' . $data->discipline)
-
-@section('breadcrumb', 'Discipline Details')
-
-@section('breadcrumbs')
-    <span class="text-[var(--text-tertiary)]">Core</span>
-    <span class="text-[var(--text-tertiary)]">/</span>
-    <a href="{{ route('core.disciplines.index') }}" class="text-[var(--color-primary-600)]">Disciplines</a>
-    <span class="text-[var(--text-tertiary)]">/</span>
-    <span class="text-[var(--text-tertiary)]">Details</span>
-@endsection
-
 @section('content')
 <main class="p-4 lg:p-6 space-y-5 max-w-full mx-auto w-full">
 

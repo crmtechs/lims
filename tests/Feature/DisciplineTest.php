@@ -7,17 +7,6 @@ use Illuminate\Support\Facades\Hash;
 
 uses(RefreshDatabase::class);
 
-function createTestUser(): User
-{
-    return User::create([
-        'username' => 'testuser',
-        'email' => 'test@example.com',
-        'password' => Hash::make('password123'),
-        'status' => 'active',
-        'user_type' => 'admin',
-    ]);
-}
-
 test('guests are redirected to login when visiting disciplines', function ()
 {
     $response = $this->get(route('core.disciplines.index'));
@@ -30,6 +19,8 @@ test('authenticated user can view disciplines index page', function ()
     $response = $this->actingAs($user)->get(route('core.disciplines.index'));
 
     $response->assertStatus(200);
+    $response->assertViewHas('title', 'Disciplines');
+    $response->assertViewHas('breadcrumbs');
     $response->assertSee('Disciplines');
     $response->assertSee('Add Discipline');
 });
@@ -65,13 +56,16 @@ test('authenticated user can view create discipline page', function ()
     $response = $this->actingAs($user)->get(route('core.disciplines.create'));
 
     $response->assertStatus(200);
+    $response->assertViewHas('title', 'Core : Discipline : Create');
+    $response->assertViewHas('breadcrumbs');
     $response->assertSee('LIMS : Core : Discipline : Create');
     $response->assertSee('Create Discipline');
     $response->assertSee('Create new calibration discipline');
     $response->assertSee('Save');
     $response->assertSee('Cancel');
     $response->assertSee('Core');
-    $response->assertSee('<a href="'.route('core.disciplines.index').'" class="text-[var(--color-primary-600)]">Disciplines</a>', false);
+    $response->assertSee('<a class="flex items-center text-gray-600 hover:text-primary" href="'.route('core.disciplines.index').'">', false);
+    $response->assertSee('icon-chevron-right', false);
     $response->assertSee('Create');
     $response->assertSee('placeholder="Thermal"', false);
     $response->assertSee('placeholder="TH"', false);
@@ -190,12 +184,14 @@ test('authenticated user can view show and edit pages', function ()
 
     $showResponse = $this->actingAs($user)->get(route('core.disciplines.show', $discipline->uuid));
     $showResponse->assertStatus(200);
+    $showResponse->assertViewHas('title', 'Discipline: ' . $discipline->discipline);
     $showResponse->assertSee('Optics');
     $showResponse->assertSee('OPT');
     $showResponse->assertSee('Short Name');
 
     $editResponse = $this->actingAs($user)->get(route('core.disciplines.edit', $discipline->uuid));
     $editResponse->assertStatus(200);
+    $editResponse->assertViewHas('title', 'Edit Discipline');
     $editResponse->assertSee('Edit Discipline');
     $editResponse->assertSee('OPT');
     $editResponse->assertSee('Save');

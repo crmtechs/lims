@@ -1,7 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\TestCase;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +43,13 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function createTestUser(array $attributes = []): \App\Models\User
 {
-    // ..
+    return \App\Models\User::create(array_merge([
+        'username' => 'testuser',
+        'email' => 'test@example.com',
+        'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+        'status' => 'active',
+        'user_type' => 'admin',
+    ], $attributes));
 }

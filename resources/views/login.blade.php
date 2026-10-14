@@ -1,7 +1,5 @@
 @extends('layouts.login')
 
-@section('title', 'Sign In')
-
 @push('meta')
     <meta content="{{ csrf_token() }}" name="csrf-token"/>
 @endpush

@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>
-            {{ config('app.title') }} @hasSection('title') : @yield('title') @endif
-        </title>
-
+        @include('layouts.title')
         @stack('meta')
-
         @include('layouts.css')
         @include('layouts.javascript')
-
         @stack('scripts')
     </head>
     <body>

@@ -40,7 +40,15 @@ class DisciplineController extends Controller
             'inactive' => 'Inactive',
         ]);
 
-        return view('core.disciplines', compact('filter', 'statuses'));
+        $title = 'Disciplines';
+
+        $breadcrumbs = [
+            ['label' => 'Home', 'url' => route('dashboard')],
+            ['label' => 'Core'],
+            ['label' => 'Disciplines'],
+        ];
+
+        return view('core.disciplines', compact('title', 'filter', 'statuses', 'breadcrumbs'));
     }
 
     public function data(Request $request): JsonResponse
@@ -179,12 +187,19 @@ class DisciplineController extends Controller
     public function create()
     {
         $data = new Discipline;
-        $statuses = config('dropdowns.general_status_list', [
-            'active' => 'Active',
-            'inactive' => 'Inactive',
-        ]);
 
-        return view('core.disciplines_create', compact('data', 'statuses'));
+        $title = 'Core : Discipline : Create';
+
+        $statuses = config('dropdowns.general_status_list');
+
+        $breadcrumbs = [
+            ['label' => 'Home', 'url' => route('dashboard')],
+            ['label' => 'Core'],
+            ['label' => 'Disciplines', 'url' => route('core.disciplines.index')],
+            ['label' => 'Create Discipline'],
+        ];
+
+        return view('core.disciplines_create', compact('title', 'data', 'statuses', 'breadcrumbs'));
     }
 
     public function store(DisciplineStoreRequest $request): JsonResponse
@@ -205,19 +220,35 @@ class DisciplineController extends Controller
     public function show(string $uuid)
     {
         $data = Discipline::findOrFail($uuid);
+        $title = 'Discipline: ' . $data->discipline;
 
-        return view('core.disciplines_show', compact('data'));
+        $breadcrumbs = [
+            ['label' => 'Home', 'url' => route('dashboard')],
+            ['label' => 'Core'],
+            ['label' => 'Disciplines', 'url' => route('core.disciplines.index')],
+            ['label' => 'Discipline Details'],
+        ];
+
+        return view('core.disciplines_show', compact('title', 'data', 'breadcrumbs'));
     }
 
     public function edit(string $uuid)
     {
         $data = Discipline::findOrFail($uuid);
+        $title = 'Edit Discipline';
         $statuses = config('dropdowns.general_status_list', [
             'active' => 'Active',
             'inactive' => 'Inactive',
         ]);
 
-        return view('core.disciplines_edit', compact('data', 'statuses'));
+        $breadcrumbs = [
+            ['label' => 'Home', 'url' => route('dashboard')],
+            ['label' => 'Core'],
+            ['label' => 'Disciplines', 'url' => route('core.disciplines.index')],
+            ['label' => 'Edit Discipline'],
+        ];
+
+        return view('core.disciplines_edit', compact('title', 'data', 'statuses', 'breadcrumbs'));
     }
 
     public function update(DisciplineUpdateRequest $request, string $uuid): JsonResponse
