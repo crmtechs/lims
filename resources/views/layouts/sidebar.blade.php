@@ -29,7 +29,7 @@
             <li class="has-submenu">
                 <button type="button" class="sidebar-link w-full" data-submenu-toggle>
                     <i class="icon-cpu text-[16px]"></i>
-                    <span class="sidebar-label">Core Architecture</span>
+                    <span class="sidebar-label">Core</span>
                     <i class="icon-chevron-right sidebar-chevron text-[11px]"></i>
                 </button>
                 <ul class="sidebar-submenu">
