@@ -3,8 +3,11 @@
 <meta content="Laboratory Information Management System" name="description">
 <meta content="CRM Technologies" name="author">
 
-<link rel="shortcut icon" type="image/x-icon" href="{{ asset('build/img/favicon.png') }}">
-<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('build/img/apple-icon.png') }}">
+<!-- Favicon -->
+<link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/favicon.png') }}">
+
+<!-- Apple Touch Icon -->
+<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/apple-icon.png') }}">
 
 <link rel="stylesheet" href="{{ asset('build/libs/@phosphor-icons/web/duotone/style.css') }}">
 <link rel="stylesheet" href="{{ asset('build/libs/@phosphor-icons/web/regular/style.css') }}">
