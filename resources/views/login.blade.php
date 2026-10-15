@@ -87,7 +87,11 @@
                         <input type="checkbox" name="remember" class="size-3.5 rounded" {{ old('remember') ? 'checked' : '' }}>
                         Remember Me
                     </label>
-                    <button type="button" id="sign_in" class="btn btn-primary w-full justify-center !text-[13px]">Sign In<i class="icon-arrow-right text-[13px]"></i></button>
+                    <button type="button" id="sign_in" class="btn btn-primary w-full justify-center !text-[13px]">
+                        Sign In
+                        <i class="icon-arrow-right text-[13px]" id="sign_in_arrow"></i>
+                        <i class="icon-loader-2 text-[13px] animate-spin hidden" id="sign_in_spinner"></i>
+                    </button>
                 </form>
                 <p class="text-center text-[12.5px] mt-6 text-tertiary">
                     <a href="{{url('forgot-password')}}" class="font-semibold text-primary-600">Forgot Password?</a>

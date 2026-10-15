@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        @include('layouts.title')
         @stack('meta')
+        @include('layouts.title')
         @include('layouts.css')
-        @include('layouts.javascript')
-        @stack('scripts')
+        @stack('styles')
     </head>
     <body>
         @yield('content')
+
+        @include('layouts.javascript')
+        @stack('scripts')
     </body>
 </html>

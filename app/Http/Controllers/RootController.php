@@ -11,6 +11,11 @@ class RootController extends Controller
     {
         if (Auth::check())
         {
+            echo '<pre>';
+            print_r($request->session()->all());
+            echo '</pre>';
+            die;
+
             return redirect()->route('dashboard');
         }
         else

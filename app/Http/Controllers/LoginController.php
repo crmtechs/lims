@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -26,7 +25,8 @@ class LoginController extends Controller
         if (empty($username) || empty($password))
         {
             $return['status'] = 'error';
-            $return['error'] = 'empty_credentials';
+            $return['error_code'] = 'empty_credentials';
+            $return['error_message'] = 'Empty username or password';
         }
         else
         {
@@ -39,7 +39,8 @@ class LoginController extends Controller
                     if ($user->status != 'active')
                     {
                         $return['status'] = 'error';
-                        $return['error'] = 'user_inactive';
+                        $return['error_code'] = 'user_inactive';
+                        $return['error_message'] = 'User is inactive';
                     }
                     else
                     {
@@ -49,7 +50,8 @@ class LoginController extends Controller
                         if ($valid_until && now()->greaterThan($valid_until) && !in_array($user->uuid, $allowed_users))
                         {
                             $return['status'] = 'error';
-                            $return['error'] = 'software_license_expired';
+                            $return['error_code'] = 'software_license_expired';
+                            $return['error_message'] = 'Software license expired';
                         }
                         else
                         {
@@ -67,16 +69,19 @@ class LoginController extends Controller
                 else
                 {
                     $return['status'] = 'error';
-                    $return['error'] = 'password_does_not_match';
+                    $return['error_code'] = 'password_does_not_match';
+                    $return['error_message'] = 'Password does not match';
                 }
             }
             else
             {
                 $return['status'] = 'error';
-                $return['error'] = 'username_does_not_exist';
+                $return['error_code'] = 'username_does_not_exist';
+                $return['error_message'] = 'Username does not exist';
             }
         }
 
+        sleep(5);
         return response()->json($return);
     }
 }
