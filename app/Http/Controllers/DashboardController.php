@@ -10,8 +10,11 @@ class DashboardController extends Controller
     {
         $title = 'Dashboard';
         $breadcrumbs = [
-            ['label' => 'Home', 'url' => route('dashboard')],
-            ['label' => 'Dashboard'],
+            'heading' => 'Dashboard',
+            'hierarchy' => [
+                ['label' => 'Home', 'url' => route('dashboard')],
+                ['label' => 'Dashboard'],
+            ],
         ];
 
         return view('dashboard', compact('title', 'breadcrumbs'));

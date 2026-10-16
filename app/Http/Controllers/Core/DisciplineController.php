@@ -35,23 +35,22 @@ class DisciplineController extends Controller
             }
         }
 
-        $statuses = config('dropdowns.general_status_list', [
-            'active' => 'Active',
-            'inactive' => 'Inactive',
-        ]);
+        $statuses = config('dropdowns.general_status_list');
 
         $title = 'Disciplines';
 
         $breadcrumbs = [
-            ['label' => 'Home', 'url' => route('dashboard')],
-            ['label' => 'Core'],
-            ['label' => 'Disciplines'],
+            'heading' => 'Disciplines',
+            'hierarchy' => [
+                ['label' => 'Core'],
+                ['label' => 'Disciplines'],
+            ],
         ];
 
         return view('core.disciplines', compact('title', 'filter', 'statuses', 'breadcrumbs'));
     }
 
-    public function data(Request $request): JsonResponse
+    public function data(Request $request)
     {
         $draw = $request->input('draw', 1);
         $start = (int) $request->input('start', 0);
@@ -193,16 +192,18 @@ class DisciplineController extends Controller
         $statuses = config('dropdowns.general_status_list');
 
         $breadcrumbs = [
-            ['label' => 'Home', 'url' => route('dashboard')],
-            ['label' => 'Core'],
-            ['label' => 'Disciplines', 'url' => route('core.disciplines.index')],
-            ['label' => 'Create Discipline'],
+            'heading' => 'Create Discipline',
+            'hierarchy' => [
+                ['label' => 'Core'],
+                ['label' => 'Disciplines', 'url' => route('core.disciplines.index')],
+                ['label' => 'Create'],
+            ],
         ];
 
         return view('core.disciplines_create', compact('title', 'data', 'statuses', 'breadcrumbs'));
     }
 
-    public function store(DisciplineStoreRequest $request): JsonResponse
+    public function store(DisciplineStoreRequest $request)
     {
         $discipline = new Discipline;
         $discipline->discipline = trim($request->input('discipline'));
@@ -223,10 +224,12 @@ class DisciplineController extends Controller
         $title = 'Discipline: ' . $data->discipline;
 
         $breadcrumbs = [
-            ['label' => 'Home', 'url' => route('dashboard')],
-            ['label' => 'Core'],
-            ['label' => 'Disciplines', 'url' => route('core.disciplines.index')],
-            ['label' => 'Discipline Details'],
+            'heading' => 'Discipline Details',
+            'hierarchy' => [
+                ['label' => 'Core'],
+                ['label' => 'Disciplines', 'url' => route('core.disciplines.index')],
+                ['label' => 'View'],
+            ],
         ];
 
         return view('core.disciplines_show', compact('title', 'data', 'breadcrumbs'));
@@ -242,16 +245,18 @@ class DisciplineController extends Controller
         ]);
 
         $breadcrumbs = [
-            ['label' => 'Home', 'url' => route('dashboard')],
-            ['label' => 'Core'],
-            ['label' => 'Disciplines', 'url' => route('core.disciplines.index')],
-            ['label' => 'Edit Discipline'],
+            'heading' => 'Edit Discipline',
+            'hierarchy' => [
+                ['label' => 'Core'],
+                ['label' => 'Disciplines', 'url' => route('core.disciplines.index')],
+                ['label' => 'Edit'],
+            ],
         ];
 
         return view('core.disciplines_edit', compact('title', 'data', 'statuses', 'breadcrumbs'));
     }
 
-    public function update(DisciplineUpdateRequest $request, string $uuid): JsonResponse
+    public function update(DisciplineUpdateRequest $request, string $uuid)
     {
         $discipline = Discipline::findOrFail($uuid);
         $discipline->discipline = trim($request->input('discipline'));
@@ -266,7 +271,7 @@ class DisciplineController extends Controller
         ], 200);
     }
 
-    public function delete(string $uuid): Response|JsonResponse
+    public function delete(string $uuid)
     {
         $discipline = Discipline::findOrFail($uuid);
         $discipline->delete();

@@ -2,24 +2,44 @@
 
 let targetDeleteUuid = null;
 
-function edit_discipline(uuid) {
+function edit_discipline(uuid)
+{
     window.location.href = `/core/disciplines/${uuid}/edit`;
 }
 
-function delete_discipline(uuid, name) {
+function delete_discipline(uuid, name)
+{
     targetDeleteUuid = uuid;
     $('#deleteDisciplineName').text(name || 'this discipline');
-    $('#deleteConfirmModal').removeClass('hidden');
+    if (typeof window.openModal === 'function')
+    {
+        window.openModal('deleteConfirmModal');
+    }
+    else
+    {
+        $('#deleteConfirmModal').removeClass('hidden');
+    }
 }
 
-$(document).ready(function () {
-    $('#cancelDeleteBtn').on('click', function () {
+$(document).ready(function ()
+{
+    $('#cancelDeleteBtn').on('click', function ()
+    {
         targetDeleteUuid = null;
-        $('#deleteConfirmModal').addClass('hidden');
+        if (typeof window.closeModal === 'function')
+        {
+            window.closeModal('deleteConfirmModal');
+        }
+        else
+        {
+            $('#deleteConfirmModal').addClass('hidden');
+        }
     });
 
-    $('#confirmDeleteBtn').on('click', function () {
-        if (!targetDeleteUuid) {
+    $('#confirmDeleteBtn').on('click', function ()
+    {
+        if (!targetDeleteUuid)
+        {
             return;
         }
 
@@ -32,10 +52,12 @@ $(document).ready(function () {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            success: function () {
+            success: function ()
+            {
                 window.location.href = '/core/disciplines';
             },
-            error: function () {
+            error: function ()
+            {
                 btn.prop('disabled', false).text('Delete');
                 alert('Failed to delete discipline. Please try again.');
             }

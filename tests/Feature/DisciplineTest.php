@@ -23,6 +23,8 @@ test('authenticated user can view disciplines index page', function ()
     $response->assertViewHas('breadcrumbs');
     $response->assertSee('Disciplines');
     $response->assertSee('Add Discipline');
+    $response->assertSee('Delete this discipline?');
+    $response->assertSee('Are you sure you want to delete this discipline');
 });
 
 test('authenticated user can fetch disciplines data via ajax', function ()
@@ -69,6 +71,8 @@ test('authenticated user can view create discipline page', function ()
     $response->assertSee('Create');
     $response->assertSee('placeholder="Thermal"', false);
     $response->assertSee('placeholder="TH"', false);
+    $response->assertSee('Basic');
+    $response->assertDontSee('Discipline Details');
 
     // Verify sidebar: Core menu is open and Discipline menu is selected
     $response->assertSee('<li class="has-submenu is-open" data-open="true">'."\n".'                <button type="button" class="sidebar-link w-full" data-submenu-toggle>'."\n".'                    <i class="icon-cpu text-[16px]"></i>'."\n".'                    <span class="sidebar-label">Core</span>', false);
@@ -188,12 +192,22 @@ test('authenticated user can view show and edit pages', function ()
     $showResponse->assertSee('Optics');
     $showResponse->assertSee('OPT');
     $showResponse->assertSee('Short Name');
+    $showResponse->assertSee('Basic');
+    $showResponse->assertDontSee('Discipline Information');
+    $showResponse->assertSee('Delete this discipline?');
+    $showResponse->assertSee('Are you sure you want to delete this discipline');
+    $showResponse->assertSee('Cancel');
+    $showResponse->assertSee('Delete');
+    $showResponse->assertDontSee('Keep Active');
+    $showResponse->assertDontSee('Delete Discipline');
 
     $editResponse = $this->actingAs($user)->get(route('core.disciplines.edit', $discipline->uuid));
     $editResponse->assertStatus(200);
     $editResponse->assertViewHas('title', 'Edit Discipline');
     $editResponse->assertSee('Edit Discipline');
     $editResponse->assertSee('OPT');
+    $editResponse->assertSee('Basic');
+    $editResponse->assertDontSee('Discipline Details');
     $editResponse->assertSee('Save');
     $editResponse->assertSee('Cancel');
 });
@@ -239,4 +253,138 @@ test('authenticated user can soft-delete a discipline', function ()
 
     expect(Discipline::find($discipline->uuid))->toBeNull();
     expect(Discipline::withTrashed()->find($discipline->uuid)->trashed())->toBeTrue();
+});
+
+test('discipline validation fails when discipline or short_name is duplicate on create', function ()
+{
+    $user = createTestUser();
+    Discipline::create([
+        'discipline' => 'Mechanical',
+        'short_name' => 'MEC',
+        'status' => 'active',
+    ]);
+
+    // Duplicate discipline
+    $response = $this->actingAs($user)->postJson(route('core.disciplines.store'), [
+        'discipline' => 'Mechanical',
+        'short_name' => 'MC2',
+        'status' => 'active',
+    ]);
+
+    $response->assertStatus(422);
+    $response->assertJsonValidationErrors(['discipline']);
+    expect($response->json('errors.discipline'))->toBe('Discipline already exists.');
+
+    // Duplicate short_name
+    $response = $this->actingAs($user)->postJson(route('core.disciplines.store'), [
+        'discipline' => 'Mechanical Secondary',
+        'short_name' => 'MEC',
+        'status' => 'active',
+    ]);
+
+    $response->assertStatus(422);
+    $response->assertJsonValidationErrors(['short_name']);
+    expect($response->json('errors.short_name'))->toBe('Short name already exists.');
+});
+
+test('authenticated user can update discipline keeping own discipline and short_name', function ()
+{
+    $user = createTestUser();
+    $discipline = Discipline::create([
+        'discipline' => 'Pressure',
+        'short_name' => 'PRS',
+        'status' => 'active',
+    ]);
+
+    $response = $this->actingAs($user)->postJson(route('core.disciplines.update', $discipline->uuid), [
+        'discipline' => 'Pressure',
+        'short_name' => 'PRS',
+        'status' => 'inactive',
+    ]);
+
+    $response->assertStatus(200);
+    $response->assertJson([
+        'status' => 'success',
+        'message' => 'Discipline updated successfully.',
+    ]);
+
+    $discipline->refresh();
+    expect($discipline->status)->toBe('inactive');
+});
+
+test('discipline validation fails when updating to another existing discipline or short_name', function ()
+{
+    $user = createTestUser();
+    $discipline1 = Discipline::create([
+        'discipline' => 'Dimensions',
+        'short_name' => 'DIM',
+        'status' => 'active',
+    ]);
+    $discipline2 = Discipline::create([
+        'discipline' => 'Electro-Technical',
+        'short_name' => 'ELT',
+        'status' => 'active',
+    ]);
+
+    // Try updating discipline2 to discipline1's name
+    $response = $this->actingAs($user)->postJson(route('core.disciplines.update', $discipline2->uuid), [
+        'discipline' => 'Dimensions',
+        'short_name' => 'EL2',
+        'status' => 'active',
+    ]);
+
+    $response->assertStatus(422);
+    $response->assertJsonValidationErrors(['discipline']);
+    expect($response->json('errors.discipline'))->toBe('Discipline already exists.');
+
+    // Try updating discipline2 to discipline1's short_name
+    $response = $this->actingAs($user)->postJson(route('core.disciplines.update', $discipline2->uuid), [
+        'discipline' => 'Electro-Technical Secondary',
+        'short_name' => 'DIM',
+        'status' => 'active',
+    ]);
+
+    $response->assertStatus(422);
+    $response->assertJsonValidationErrors(['short_name']);
+    expect($response->json('errors.short_name'))->toBe('Short name already exists.');
+});
+
+test('duplicate validation ignores soft-deleted disciplines on create and edit', function ()
+{
+    $user = createTestUser();
+    $deletedDiscipline = Discipline::create([
+        'discipline' => 'Radiological',
+        'short_name' => 'RAD',
+        'status' => 'active',
+    ]);
+    $deletedDiscipline->delete();
+
+    // Create should succeed with same discipline and short_name
+    $createResponse = $this->actingAs($user)->postJson(route('core.disciplines.store'), [
+        'discipline' => 'Radiological',
+        'short_name' => 'RAD',
+        'status' => 'active',
+    ]);
+    $createResponse->assertStatus(200);
+
+    // Create another discipline to test updating to soft-deleted name
+    $anotherDiscipline = Discipline::create([
+        'discipline' => 'Chemical',
+        'short_name' => 'CHM',
+        'status' => 'active',
+    ]);
+    $anotherDiscipline->delete();
+
+    $activeDiscipline = Discipline::create([
+        'discipline' => 'Biological',
+        'short_name' => 'BIO',
+        'status' => 'active',
+    ]);
+
+    $updateResponse = $this->actingAs($user)->postJson(route('core.disciplines.update', $activeDiscipline->uuid), [
+        'discipline' => 'Chemical',
+        'short_name' => 'CHM',
+        'status' => 'active',
+    ]);
+    $updateResponse->assertStatus(200);
 });

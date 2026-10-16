@@ -1,24 +1,15 @@
 <main class="p-4 lg:p-6 max-w-full mx-auto w-full flex-1">
 
 <!-- ============ Header Bar (project-add style) ============ -->
-<div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-    <div class="flex items-center gap-3">
-        <a href="{{ $data->exists ? route('core.disciplines.show', $data->uuid) : route('core.disciplines.index') }}" class="header-icon-btn" aria-label="Back">
-            <i class="icon-arrow-left text-[15px]"></i>
-        </a>
-        <div>
-            <h1 class="font-display font-bold text-[19px]">
-                {{ $data->exists ? 'Edit Discipline' : 'Create Discipline' }}
-            </h1>
-            <p class="text-[12px] mt-0.5 u-color-text-tertiary">
-                {{ $data->exists ? 'Update discipline details and status' : 'Create new calibration discipline' }}
-            </p>
-        </div>
+<div class="flex flex-wrap items-center justify-between gap-3 mb-4 px-5">
+    <div>
+        <h1 class="font-display font-bold text-[19px]">
+            {{ $data->exists ? 'Edit Discipline' : 'Create Discipline' }}
+        </h1>
+        <p class="text-[12px] mt-0.5 u-color-text-tertiary">
+            {{ $data->exists ? 'Update discipline details and status' : 'Create new calibration discipline' }}
+        </p>
     </div>
-    <span class="badge-soft {{ $data->exists ? ($data->status === 'active' ? 'badge-success' : 'badge-danger') : 'badge-neutral' }}">
-        <i class="{{ $data->exists ? 'icon-check-circle' : 'icon-file-edit' }} text-[10px]"></i>
-        {{ $data->exists ? ucfirst($data->status) : 'Unsaved' }}
-    </span>
 </div>
 
 <div class="space-y-4">
@@ -35,11 +26,11 @@
         </div>
     </div>
     <div class="surface-card p-5">
-        <h2 class="font-display font-bold text-[14px] mb-4">Discipline Details</h2>
+        <h2 class="font-display font-bold text-[14px] mb-4">Basic</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
             <div>
                 <label for="discipline" class="text-[11.5px] font-semibold uppercase tracking-wide mb-1.5 u-color-text-tertiary block">
-                    Discipline Name <span class="u-color-color-danger-600">*</span>
+                    Discipline <span class="u-color-color-danger-600">*</span>
                 </label>
                 <input type="text" id="discipline" name="discipline" value="{{ old('discipline', $data->discipline) }}" placeholder="Thermal" class="w-full field-control @error('discipline') border-danger @enderror">
                 <span id="discipline-error" class="text-[11.5px] font-medium text-danger-600 block mt-1">@error('discipline') {{ $message }} @enderror</span>
@@ -72,14 +63,12 @@
     </div>
 </div>
 </main>
-<!-- ============ Sticky Action Footer (matching project-add) ============ -->
+<!-- ============ Sticky Action Footer ============ -->
 <div class="sticky bottom-0 z-40 border-t u-background-surface-base_border-color-border-subtle">
-    <div class="mx-auto p-4 flex items-center justify-between gap-2">
+    <div class="mx-auto p-4 flex items-center justify-end gap-2">
+        <button type="button" class="btn btn-primary !text-[12.5px]" id="save_discipline_btn" onclick="submit_discipline();">
+            <i class="icon-check text-[13px]"></i>Save
+        </button>
         <a href="{{ $data->exists ? route('core.disciplines.show', $data->uuid) : route('core.disciplines.index') }}" class="btn btn-outline !text-[12.5px]">Cancel</a>
-        <div class="flex items-center gap-2">
-            <button type="button" class="btn btn-primary !text-[12.5px]" id="save_discipline_btn" onclick="submit_discipline();">
-                <i class="icon-check text-[13px]"></i>Save
-            </button>
-        </div>
     </div>
 </div>

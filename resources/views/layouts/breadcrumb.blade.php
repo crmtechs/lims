@@ -1,13 +1,14 @@
 @if (!empty($breadcrumbs))
     @php
-        $heading = $breadcrumbs[count($breadcrumbs) - 1]['label'] ?? '';
+        $heading = isset($breadcrumbs['heading']) ? $breadcrumbs['heading'] : '';
+        $hierarchy = isset($breadcrumbs['hierarchy']) ? $breadcrumbs['hierarchy'] : [];
     @endphp
 
     <div class="px-4 lg:px-6 py-3 border-b border-[var(--border-subtle)] bg-[var(--surface-sunken)]">
         <div class="flex flex-wrap items-center justify-between gap-2 max-w-[1600px] mx-auto">
             <h2 class="font-display font-bold text-[13px] tracking-wide uppercase">{!! $heading !!}</h2>
             <ol class="flex flex-wrap items-center whitespace-nowrap gap-2 text-[12px]">
-                @foreach ($breadcrumbs as $item)
+                @foreach ($hierarchy as $item)
                     @if (!$loop->first)
                         <li class="inline-flex items-center">
                             <i class="icon icon-chevron-right"></i>

@@ -15,7 +15,7 @@
                 @include('layouts.footer')
             </div>
         </div>
-        @include('components.modal-popup')
+        @stack('modals')
         @include('layouts.javascript')
         @stack('scripts')
     </body>

@@ -5,6 +5,7 @@ namespace App\Http\Requests\Core;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class DisciplineUpdateRequest extends FormRequest
 {
@@ -15,9 +16,22 @@ class DisciplineUpdateRequest extends FormRequest
 
     public function rules(): array
     {
+        $uuid = $this->route('uuid');
+        $uuid = is_object($uuid) ? ($uuid->uuid ?? $uuid->getKey()) : $uuid;
+
         return [
-            'discipline' => 'required|string|max:255',
-            'short_name' => 'required|string|max:3',
+            'discipline' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('disciplines', 'discipline')->ignore($uuid, 'uuid')->withoutTrashed(),
+            ],
+            'short_name' => [
+                'required',
+                'string',
+                'max:3',
+                Rule::unique('disciplines', 'short_name')->ignore($uuid, 'uuid')->withoutTrashed(),
+            ],
             'status' => 'required|in:active,inactive',
         ];
     }
@@ -25,10 +39,12 @@ class DisciplineUpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'discipline.required' => 'Discipline name is required.',
-            'discipline.max' => 'Discipline name cannot exceed 255 characters.',
+            'discipline.required' => 'Discipline is required.',
+            'discipline.max' => 'Discipline cannot exceed 255 characters.',
+            'discipline.unique' => 'Discipline already exists.',
             'short_name.required' => 'Short name is required.',
             'short_name.max' => 'Short name cannot exceed 3 characters.',
+            'short_name.unique' => 'Short name already exists.',
             'status.required' => 'Status is required.',
             'status.in' => 'Status must be either active or inactive.',
         ];

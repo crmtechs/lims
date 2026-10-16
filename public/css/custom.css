@@ -60,3 +60,34 @@
 .alert-dismiss-btn:active {
     transform: scale(0.92);
 }
+/* Error / Danger button styling matching .btn-primary */
+.btn-error,
+.btn-danger {
+    background: linear-gradient(180deg, var(--color-danger-500, #d0504c), var(--color-danger-700, #8f2e2c)) !important;
+    background-repeat: no-repeat !important;
+    color: var(--color-neutral-0, #ffffff) !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: var(--shadow-glow-danger, 0 8px 24px -6px rgba(208, 80, 76, 0.35));
+}
+
+.btn-error:hover,
+.btn-danger:hover {
+    background: linear-gradient(180deg, color-mix(in oklab, var(--color-danger-500, #d0504c) 85%, white), var(--color-danger-600, #b33d3a)) !important;
+    background-repeat: no-repeat !important;
+    color: var(--color-neutral-0, #ffffff) !important;
+    border: none !important;
+    outline: none !important;
+}
+
+.btn-error i,
+.btn-danger i {
+    color: inherit !important;
+}
+
+/* Header bar horizontal padding to align with surface-card (p-5 = 1.25rem) */
+.form-header-bar,
+.px-5 {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+}

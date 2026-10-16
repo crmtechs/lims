@@ -5,6 +5,7 @@ namespace App\Http\Requests\Core;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class DisciplineStoreRequest extends FormRequest
 {
@@ -13,22 +14,34 @@ class DisciplineStoreRequest extends FormRequest
         return true;
     }
 
-    public function rules(): array
+    public function rules()
     {
         return [
-            'discipline' => 'required|string|max:255',
-            'short_name' => 'required|string|max:3',
+            'discipline' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('disciplines', 'discipline')->withoutTrashed(),
+            ],
+            'short_name' => [
+                'required',
+                'string',
+                'max:3',
+                Rule::unique('disciplines', 'short_name')->withoutTrashed(),
+            ],
             'status' => 'required|in:active,inactive',
         ];
     }
 
-    public function messages(): array
+    public function messages()
     {
         return [
-            'discipline.required' => 'Discipline name is required.',
-            'discipline.max' => 'Discipline name cannot exceed 255 characters.',
+            'discipline.required' => 'Discipline is required.',
+            'discipline.max' => 'Discipline cannot exceed 255 characters.',
+            'discipline.unique' => 'Discipline already exists.',
             'short_name.required' => 'Short name is required.',
             'short_name.max' => 'Short name cannot exceed 3 characters.',
+            'short_name.unique' => 'Short name already exists.',
             'status.required' => 'Status is required.',
             'status.in' => 'Status must be either active or inactive.',
         ];
