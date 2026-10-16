@@ -288,8 +288,8 @@
                         <img src="{{URL::asset('/build/img/avatar/avatar-12.jpg')}}" alt="User profile avatar" class="size-7 rounded-full object-cover block border-[2px] border-[var(--surface-base)] max-[991px]:border-0">
                     </span>
                     <span class="hidden lg:flex flex-col items-start leading-none">
-                        <span class="text-[12px] font-semibold">Amelia</span>
-                        <span class="text-[10px] text-[var(--text-tertiary)]">Admin</span>
+                        <span class="text-[12px] font-semibold">{{ Auth::user()?->full_name() }}</span>
+                        <span class="text-[10px] text-[var(--text-tertiary)]">{{ Auth::user()?->username }}</span>
                     </span>
                     <i class="hidden lg:block icon-chevron-down text-[10px] text-[var(--text-tertiary)]"></i>
                 </button>
@@ -301,33 +301,15 @@
                         <span class="absolute -bottom-10 -start-6 size-20 rounded-full pointer-events-none bg-[var(--color-accent-500)] opacity-[0.18] blur-[6px]"></span>
                         <div class="relative flex items-center gap-3">
                             <span class="relative shrink-0">
-                                <img src="{{URL::asset('/build/img/avatar/avatar-12.jpg')}}" alt="Amelia Hart profile avatar" class="size-11 rounded-full object-cover border-[2px] border-[rgb(255_255_255_/_0.25)]">
+                                <img src="{{URL::asset('/build/img/avatar/avatar-12.jpg')}}" alt="User profile avatar" class="size-11 rounded-full object-cover border-[2px] border-[rgb(255_255_255_/_0.25)]">
                                 <span class="absolute bottom-0 end-0 size-2.5 rounded-full bg-[var(--color-success-500)] border-[2px] border-[var(--color-primary-800)]"></span>
                             </span>
                             <span class="min-w-0 flex-1">
-                                <span class="flex items-center gap-1.5">
-                                    <span class="block text-[14px] font-display font-bold text-white truncate">Amelia Hart</span>
-                                    <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wide shrink-0 bg-[rgb(255_255_255_/_0.18)] text-[#fff]"><i class="icon-crown text-[9px]"></i>Pro</span>
-                                </span>
-                                <span class="block text-[11.5px] truncate text-[rgb(255_255_255_/_0.72)]">amelia@dreamsadmin.com</span>
+                                <span class="block text-[14px] font-display font-bold text-white truncate">{{ Auth::user()?->full_name() }}</span>
+                                <span class="block text-[11.5px] truncate text-[rgb(255_255_255_/_0.72)]">{{ Auth::user()?->username }}</span>
                             </span>
                         </div>
 
-                        <!-- Mini stat row -->
-                        <div class="relative grid grid-cols-3 gap-2 mt-3.5">
-                            <div class="rounded-lg py-1.5 text-center bg-[rgb(255_255_255_/_0.08)]">
-                                <p class="font-display font-bold text-[13px] text-white leading-none">12</p>
-                                <p class="text-[9.5px] mt-1 text-[rgb(255_255_255_/_0.65)]">Tasks Today</p>
-                            </div>
-                            <div class="rounded-lg py-1.5 text-center bg-[rgb(255_255_255_/_0.08)]">
-                                <p class="font-display font-bold text-[13px] text-white leading-none">4</p>
-                                <p class="text-[9.5px] mt-1 text-[rgb(255_255_255_/_0.65)]">Messages</p>
-                            </div>
-                            <div class="rounded-lg py-1.5 text-center bg-[rgb(255_255_255_/_0.08)]">
-                                <p class="font-display font-bold text-[13px] text-white leading-none">98%</p>
-                                <p class="text-[9.5px] mt-1 text-[rgb(255_255_255_/_0.65)]">Uptime</p>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="p-1.5">
