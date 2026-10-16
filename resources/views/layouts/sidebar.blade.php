@@ -4,7 +4,7 @@
     <!-- Logo + collapse toggle -->
     <div class="flex items-center justify-between h-16 px-4 shrink-0 border-b border-[var(--sidebar-border)]">
         <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5 min-w-0 rounded-xl px-2.5 py-1.5">
-            <img src="{{ asset('images/logo-white.png') }}" alt="Logo" class="sidebar-logo-full max-w-[150px] object-contain shrink-0">
+            <img src="{{ asset('images/logo-wordmark.png') }}" alt="Logo" class="sidebar-logo-full max-w-[150px] object-contain shrink-0">
             <img src="{{ asset('images/logo-small.png') }}" alt="Logo" class="sidebar-logo-small size-8 object-contain shrink-0 hidden">
         </a>
         <button type="button" id="sidebarCollapseBtn" class="header-icon-btn !text-white/60 hover:!text-white hover:!bg-white/10 !size-8 shrink-0" aria-label="Collapse sidebar">

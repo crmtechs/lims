@@ -30,4 +30,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function full_name()
+    {
+        return trim("{$this->first_name} {$this->last_name}");
+    }
 }

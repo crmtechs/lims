@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class RootController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke()
     {
         if (Auth::check())
         {
-            echo '<pre>';
-            print_r($request->session()->all());
-            echo '</pre>';
-            die;
+            // echo '<pre>';
+            // print_r(session()->all());
+            // print_r(Auth::user()->toArray());
+            // echo Auth::user()->full_name() . PHP_EOL;
+            // echo '</pre>';
+            // die;
 
             return redirect()->route('dashboard');
         }
